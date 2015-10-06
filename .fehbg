@@ -1,2 +1,3 @@
 #!/bin/sh
-feh --bg-tile '/home/artyom/.wallpaper/tweed.png' 
+# this script is executed by xinit to set the wallpaper
+feh --bg-tile '/home/artyom/.wallpaper/tweed.png'

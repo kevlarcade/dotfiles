@@ -18,6 +18,7 @@
   + **elinks** _web browser_ formats html emails
 + **firefox** _web browser_  golden standard web browser
 + **w3m** _web browser_  console web browser, used for image previews in ranger
++ **rtorrent** _download manager_  trimmed down bittorrent client
 
 ### media
 + **mpd** _music player_  gold standard music player daemon
@@ -40,6 +41,8 @@
 + **dmenu** _dynamic menu_ application launcher (will be replaced with rofi later)
 + **ranger** _file manager_  extensible file manager that can use w3m for image previews
 + **pacaur** _aur helper_  yaort is for losers
++ **htop** _task manager_  beautified and more useful top
++ **progress** tool to show the progress of coreutils basic commands
 
 ### fonts / themes
 + **infinality** _text rendering_  improves appearence of text

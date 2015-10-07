@@ -23,7 +23,15 @@
 ### media
 + **mpd** _music player_  gold standard music player daemon
 + **ncmpcpp** _music player_  fast and configurable mpd client
++ **mpc** _music player_  minimal mpd client used by the panel script
 + **mpv** _video player_  do-it-all video player for streaming and playing local media
+
+### office
++ **libreoffice** _office suite_  as good as it gets without running ms office in wine
++ **zathura** _document viewer_  lightweight extensible document viewer with a vim-like interface
+  + **poppler** _pdf rendering lib_  much faster than mupdf
+  + **zathura-cb** _comic book plugin_  for reading manga with zathura
++ **scrot** _screenshotter_  simple
 
 ### programming
 + **vim** _text editor_  the one true text editor
@@ -38,11 +46,14 @@
 
 ### utilities
 + **zsh** _shell_ very powerful shell that remains compatible with bash
++ **tmux** _terminal multiplexer_  will save your life when X11 quits working
 + **dmenu** _dynamic menu_ application launcher (will be replaced with rofi later)
 + **ranger** _file manager_  extensible file manager that can use w3m for image previews
 + **pacaur** _aur helper_  yaort is for losers
 + **htop** _task manager_  beautified and more useful top
 + **progress** tool to show the progress of coreutils basic commands
++ **tlp** _power management_  fire and forget power manager
++ **powertop** _power management_  great for identifying sources of energy waste
 
 ### fonts / themes
 + **infinality** _text rendering_  improves appearence of text
@@ -50,8 +61,8 @@
   + **infinality-bundle-fonts** _more fonts_  fonts to play with
 + **source code pro for powerline** _monospace font_  primary font used in the system, extremely legible
 + **source code sans** _sans serif font_  font used for web browsing that retains the legibility of source code pro
-+ **arc-darker** _gtk theme_  flat gtk theme with dark highlights.  doesn't matter because the only gtk app is firefox and you'll only see it if you unhide the menubar
-+ **paper** _icon theme_  flat and simple icon theme.  again it doesn't matter because you'll never see it
++ **arc-darker** _gtk theme_  flat gtk theme with dark highlights
++ **paper** _icon theme_  flat and simple icon theme.
 
 ## notes
 this configuration is used on a laptop with a high-dpi screen, so some things might look oversized when used on a regular screen and many settings are optomized for power saving.  the sleep timers on the panel script should be shortened for use on systems where responsiveness is valued over power consumption.

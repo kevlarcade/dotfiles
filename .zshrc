@@ -32,10 +32,13 @@ ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets pattern cursor)
 # Personnal Aliases
 #-------------------
 
-alias fuck=sudo !!
+# For when I forget sudo
+alias 'fuck=sudo !!'
 
+# Test powerline functionality.  should return triangle, plusminus, right arrow, cross, lightning and gear
 alias testpl='echo "\ue0b0 \u00b1 \ue0a0 \u27a6 \u2718 \u26a1 \u2699"'
 
+# Makes mistakes harder
 alias rm='rm -iv'
 alias cp='cp -iv'
 alias mv='mv -iv'
@@ -61,6 +64,7 @@ function extract()      # Handy Extract Program
 {
     if [ -f $1 ] ; then
         case $1 in
+			*.iso)		 bsdtar xpf $1	 ;;
             *.tar.bz2)   tar xvjf $1     ;;
             *.tar.gz)    tar xvzf $1     ;;
             *.bz2)       bunzip2 $1      ;;

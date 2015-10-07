@@ -1,4 +1,3 @@
-# injected's dotfiles
 ![scrot of current desktop](http://i.imgur.com/qfKL82l.png "It never actually looks this clean")
 ## installed software
 

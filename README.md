@@ -20,6 +20,11 @@
 + **firefox** _web browser_  golden standard web browser
 + **w3m** _web browser_  console web browser, used for image previews in ranger
 
+### media
++ **mpd** _music player_  gold standard music player daemon
++ **ncmpcpp** _music player_  fast and configurable mpd client
++ **mpv** _video player_  do-it-all video player for streaming and playing local media
+
 ### programming
 + **vim** _text editor_  the one true text editor
   + **vim-plug** _plugin manager_  lightweight and less finicky than other managers

@@ -41,12 +41,14 @@
 + **ranger** _file manager_  extensible file manager that can use w3m for image previews
 + **pacaur** _aur helper_  yaort is for losers
 
-### fonts
+### fonts / themes
 + **infinality** _text rendering_  improves appearence of text
   + **infinality-bundle** _standard fonts_  basic fonts for apps that need it
   + **infinality-bundle-fonts** _more fonts_  fonts to play with
 + **source code pro for powerline** _monospace font_  primary font used in the system, extremely legible
 + **source code sans** _sans serif font_  font used for web browsing that retains the legibility of source code pro
++ **arc-darker** _gtk theme_  flat gtk theme with dark highlights.  doesn't matter because the only gtk app is firefox and you'll only see it if you unhide the menubar
++ **paper** _icon theme_  flat and simple icon theme.  again it doesn't matter because you'll never see it
 
 ## notes
 this configuration is used on a laptop with a high-dpi screen, so some things might look oversized when used on a regular screen and many settings are optomized for power saving.  the sleep timers on the panel script should be shortened for use on systems where responsiveness is valued over power consumption.

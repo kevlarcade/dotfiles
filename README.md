@@ -20,10 +20,29 @@
 + **firefox** _web browser_  golden standard web browser
 + **w3m** _web browser_  console web browser, used for image previews in ranger
 
+### programming
++ **vim** _text editor_  the one true text editor
+  + **vim-plug** _plugin manager_  lightweight and less finicky than other managers
+  + **vim-airline** _status bar_  replaces the standard vim status bar with some useful eye candy
+  + **vim-numbertoggle**  smart relative line-number toggling
+  + **vim-gitgutter**  shows git diffs
+  + **vim-trailing-whitespace**  highlights spaces where they shouldn't be
+  + **auto-pairs**  spawns matched brackets / quotes
+  + **nerdtree**  in-editor file browser
+  + **gruvbox** _colour scheme_  low contrast colour scheme that's easy on the eyes
+
 ### utilities
++ **zsh** _shell_ very powerful shell that remains compatible with bash
 + **dmenu** _dynamic menu_ application launcher (will be replaced with rofi later)
 + **ranger** _file manager_  extensible file manager that can use w3m for image previews
 + **pacaur** _aur helper_  yaort is for losers
+
+### fonts
++ **infinality** _text rendering_  improves appearence of text
+  + **infinality-bundle** _standard fonts_  basic fonts for apps that need it
+  + **infinality-bundle-fonts** _more fonts_  fonts to play with
++ **source code pro for powerline** _monospace font_  primary font used in the system, extremely legible
++ **source code sans** _sans serif font_  font used for web browsing that retains the legibility of source code pro
 
 ## notes
 this configuration is used on a laptop with a high-dpi screen, so some things might look oversized when used on a regular screen and many settings are optomized for power saving.  the sleep timers on the panel script should be shortened for use on systems where responsiveness is valued over power consumption.

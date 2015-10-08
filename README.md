@@ -1,5 +1,6 @@
 ![scrot of current desktop](http://i.imgur.com/qfKL82l.png "It never actually looks this clean")
 ## installed software
+Not all of this is required for the configuration, it's just the list of software that I personally use and recommend.
 
 ### interface
 + **bspwm** _window manager_  chosen because it's easily configured and doesn't get in the way of productivity
@@ -66,6 +67,12 @@
 + **source code sans** _sans serif font_  font used for web browsing that retains the legibility of source code pro
 + **arc-darker** _gtk theme_  flat gtk theme with dark highlights
 + **paper** _icon theme_  flat and simple icon theme.
+
+### included scripts and tools
++ **testpl**  simple alias to check that a powerline patched font is set up and configured correctly.
++ **rfetch**  system info tool with a weird octopus.
++ **extract**  alias to extract most archives
++ **fuck**  yeah, you forgot to sudo
 
 ## notes
 this configuration is used on a laptop with a high-dpi screen, so some things might look oversized when used on a regular screen and many settings are optomized for power saving.  the sleep timers on the panel script should be shortened for use on systems where responsiveness is valued over power consumption.

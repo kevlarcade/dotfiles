@@ -1,6 +1,4 @@
-# aliases
-alias ls='ls --color=auto'
-
+# get our pretty gruvbox colours
 source ~/.vim/plugged/gruvbox/gruvbox_256palette.sh
 
 # History
@@ -33,7 +31,7 @@ ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets pattern cursor)
 #-------------------
 
 # For when I forget sudo
-alias 'fuck=sudo !!'
+alias fuck='sudo $(fc -nl -1)'
 
 # Test powerline functionality.  should return triangle, plusminus, right arrow, cross, lightning and gear
 alias testpl='echo "\ue0b0 \u00b1 \ue0a0 \u27a6 \u2718 \u26a1 \u2699"'

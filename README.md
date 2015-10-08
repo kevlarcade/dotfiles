@@ -66,11 +66,12 @@ Not all of this is required for the configuration, it's just the list of softwar
 + **source code pro for powerline** _monospace font_  primary font used in the system, extremely legible
 + **source code sans** _sans serif font_  font used for web browsing that retains the legibility of source code pro
 + **arc-darker** _gtk theme_  flat gtk theme with dark highlights
-+ **paper** _icon theme_  flat and simple icon theme.
++ **paper** _icon theme_  flat and simple icon theme
 
 ### included scripts and tools
-+ **testpl**  simple alias to check that a powerline patched font is set up and configured correctly.
-+ **rfetch**  system info tool with a weird octopus.
++ **testpl**  simple alias to check that a powerline patched font is set up and configured correctly
++ **classify**  classification banners using lemonbar
++ **rfetch**  system info tool with a weird octopus
 + **extract**  alias to extract most archives
 + **fuck**  yeah, you forgot to sudo
 

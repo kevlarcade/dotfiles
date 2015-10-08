@@ -17,7 +17,8 @@ usage: classify [-h | -c | -y]
 	-h show this help
 	-c [keyword] use this classification
 	-c show availible keywords
-	-y adjust panel height, default 30
+	-y adjust banner height, default 30
+	-d top banner y axis postion relative to top of screen
 click panel text to close
 EOF
 }
@@ -34,6 +35,10 @@ while [ $# -gt 0 ]; do
               BANNER_HEIGHT="$2"
               shift
               ;;
+	-d)
+			  BANNERY="$2"
+			  shift
+			  ;;
 	-h|--help)
               showusage
               exit
@@ -94,11 +99,11 @@ EOF
 	;;
 esac
 
-bspc config top_padding $BANNER_HEIGHT
+bspc config top_padding $(($BANNER_HEIGHT+$BANNERY))
 bspc config bottom_padding $BANNER_HEIGHT
 export PANELY=$BANNER_HEIGHT
 
-echo $BANNER_TEXT | lemonbar -p -g x$BANNER_HEIGHT -f "$BANNER_FONT" -F "$COLOUR_FOREGROUND" -B "$COLOUR_BACKGROUND" | zsh &
+echo $BANNER_TEXT | lemonbar -p -g x$BANNER_HEIGHT++$PANELY -f "$BANNER_FONT" -F "$COLOUR_FOREGROUND" -B "$COLOUR_BACKGROUND" | zsh &
 echo $BANNER_TEXT | lemonbar -p -b -g x$BANNER_HEIGHT -f "$BANNER_FONT" -F "$COLOUR_FOREGROUND" -B "$COLOUR_BACKGROUND" | zsh &
 
 wait

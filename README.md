@@ -4,11 +4,14 @@
 ### interface
 + **bspwm** _window manager_  chosen because it's easily configured and doesn't get in the way of productivity
 + **sxhxd** _hotkey daemon_  default for bspwm and I have no reason to change it
-+ **urxvt** _terminal emulator_  lightweight, extensible with perl, few compatibility issues / quirks
-+ **lemonbar** _status bar_ easy to use panel with a tiny footprint
++ **rxvt-unicode-256xresources** _terminal emulator_  lightweight, extensible with perl
+  + **urxvt-clipboard**  makes urxvt play nice with the x clipboard
+  + **urxvt-resize-font**  enables on the fly font resizing.  very useful for small screens
+  + **urxvt-vtwheel**  better scrolling support
++ **lemonbar-xft** _status bar_ easy to use panel with a tiny footprint, with xft patch
 + **feh** _image viewer and background setter_  it's simple and does everything you need
-+ **unclutter** _X cursor hider_  this is a mostly keyboard driven config, the cursor is useless most of the time
-+ **redshift** _screen temperature daemon_  reduces eye strain in reduced light
++ **unclutter-xfixes** _X cursor hider_  the cursor is useless for a keyboard driven config, so hide it
++ **redshift-minimal** _screen temperature daemon_  reduces eye strain in reduced light
 
 ### internet
 + **weechat** _irc client_  extensible irc client with great community support

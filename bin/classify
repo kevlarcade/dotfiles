@@ -2,6 +2,7 @@
 
 # Defaults
 BANNER_HEIGHT=30
+BANNERY=0
 BANNER_FONT="-16:Bold"
 CLASSIFICATION="u"
 
@@ -103,7 +104,7 @@ bspc config top_padding $(($BANNER_HEIGHT+$BANNERY))
 bspc config bottom_padding $BANNER_HEIGHT
 export PANELY=$BANNER_HEIGHT
 
-echo $BANNER_TEXT | lemonbar -p -g x$BANNER_HEIGHT++$PANELY -f "$BANNER_FONT" -F "$COLOUR_FOREGROUND" -B "$COLOUR_BACKGROUND" | zsh &
+echo $BANNER_TEXT | lemonbar -p -g x$BANNER_HEIGHT++$BANNERY -f "$BANNER_FONT" -F "$COLOUR_FOREGROUND" -B "$COLOUR_BACKGROUND" | zsh &
 echo $BANNER_TEXT | lemonbar -p -b -g x$BANNER_HEIGHT -f "$BANNER_FONT" -F "$COLOUR_FOREGROUND" -B "$COLOUR_BACKGROUND" | zsh &
 
 wait

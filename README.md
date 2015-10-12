@@ -1,5 +1,6 @@
 ### _please file bugs and requests in the github issues!_
 i have terrible memory so if you tell me something on irc or reddit i'll probably forget about it
+
 ![scrot of current desktop](http://i.imgur.com/qfKL82l.png "It never actually looks this clean")
 ## installed software
 Not all of this is required for the configuration, it's just the list of software that I personally use and recommend.
@@ -23,6 +24,15 @@ Not all of this is required for the configuration, it's just the list of softwar
   + **offlineimap** _imap client_  syncs email
   + **elinks** _web browser_ formats html emails
 + **firefox** _web browser_  golden standard web browser
+  + **vimperator**  browse with just your keyboard, adds a great status line / combobar
+  + **greasemonkey**  userscript manager
+    + **appchan x**  makes browsing halfchan somewhat pleasurable
+	+ **viewtubeplus**  tries to force html5 on video sites
+  + **stylish**  user styles manager
+    + **twily's powerline firefox css**  makes the tab bar usable
+  + **noscript**  block javascript from running automatically
+  + **https everywhere**  force https where possible
+  + **ublock origin**  ad and nuisance blocker
 + **w3m** _web browser_  console web browser, used for image previews in ranger
 + **rtorrent** _download manager_  trimmed down bittorrent client
 

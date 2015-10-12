@@ -17,7 +17,7 @@ call plug#end()
 
 " {{{ plugin settings
 
-" airline
+" airline options
 let g:airline#extensions#tabline#enabled = 1
 let g:airline_section=''
 let g:airline_detect_paste=1 " Show PASTE if in paste mode

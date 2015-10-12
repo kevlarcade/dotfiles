@@ -1,23 +1,30 @@
 #! /bin/zsh
 
+. panel_colors
+
 PANEL_FIFO=/tmp/panel-fifo
 PANEL_HEIGHT=30
 PANEL_FONT_FAMILY="Source Code Pro for Powerline 13"
 ICON_FONT="FontAwesome:size=15"
 ICON_FONT2="fontcustom:size=17"
-# export PANEL_FIFO PANEL_HEIGHT PANEL_FONT_FAMILY
 
+# check if panel is already running
 if [ $(pgrep -cx panel) -gt 1 ] ; then
 	printf "%s\n" "The panel is already running." >&2
 	exit 1
 fi
 
+# exit gracefully if terminated
 trap 'trap - TERM; kill 0' INT TERM QUIT EXIT
 
+# remove old panel fifo, creat new one
 [ -e "$PANEL_FIFO" ] && rm "$PANEL_FIFO"
 mkfifo "$PANEL_FIFO"
 
+# set up bspwm to not overlap the panel
 bspc config top_padding $PANEL_HEIGHT
+
+# get bspwms status feed
 bspc control --subscribe > "$PANEL_FIFO" &
 
 # window title
@@ -82,7 +89,7 @@ then
 	else
 		echo V'\uf026' $ALSA_VOLUME
 	fi
-	sleep 5.0
+	sleep 1.0
 done > $PANEL_FIFO &
 
 
@@ -98,15 +105,22 @@ done > $PANEL_FIFO &
 # music controls
 while true;
 do
-	SONG_NAME=$(mpc | head -n1)
-	if [[ -n $(mpc status | grep paused) ]]
+	SONG_NAME=$(mpc current)
+	if [[ -z $(mpc current) ]]
 	then
-		echo "R%{T3}%{A:mpc prev:}\uf19c%{A} %{A:mpc play:}\uf198%{A}  %{A:mpc next:}\uf17c%{A}%{T1} $SONG_NAME"
+		# no music in playlist, or mpd is not running
+		echo "R%{F$COLOR_INACTIVE_MONITOR_FG}%{T3}%{A:mpc listall | mpc add; mpc shuffle; mpc play:}%{A3:mpd:}\uf19c  \uf198  \uf17c%{A}%{A}%{T1}%{F-}"
 	else
-		echo "R%{T3}%{A:mpc prev:}\uf19c%{A} %{A:mpc pause:}\uf191%{A} %{A:mpc next:}\uf17c%{A}%{T1} $SONG_NAME"
+		if [[ -n $(mpc status | grep paused) ]]
+		then
+			# music is paused
+			echo "R%{F$COLOR_INACTIVE_MONITOR_FG}%{T3}%{A:mpc prev:}\uf19c %{A}%{A:mpc play:}%{A3:mpc clear:}$SONG_NAME%{A}%{A}%{A:mpc next:} \uf17c%{A}%{T1}%{F-}"
+		else
+			# music is playing
+			echo "R%{F$COLOR_FOCUSED_OCCUPIED_FG}%{T3}%{A:mpc prev:}\uf19c %{A}%{A:mpc pause:}%{A3:mpc clear:}$SONG_NAME%{A}%{A}%{A:mpc next:} \uf17c%{A}%{T1}%{F-}"
+		fi
 	fi
-
-	sleep 5
+	sleep 1.0
 done > $PANEL_FIFO &
 
 

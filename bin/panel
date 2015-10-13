@@ -49,20 +49,23 @@ do
 BATT_LEVEL=$(acpi -b | grep -o '[[:digit:]]\+%' | sed 's/%//')
 	if [ $BATT_LEVEL -ge 80 ]
 	then
-		echo 'B\uf240' $BATT_LEVEL%
+		BATT_ICON='B\uf240'
 	elif [ $BATT_LEVEL -ge 60 -a $BATT_LEVEL -lt 80 ]
 	then
-		echo 'B\uf241' $BATT_LEVEL%
+		BATT_ICON='B\uf241'
 	elif [ $BATT_LEVEL -ge 40 -a $BATT_LEVEL -lt 60 ]
 	then
-		echo 'B\uf242' $BATT_LEVEL%
+		BATT_ICON='B\uf242'
 	elif [ $BATT_LEVEL -ge 20 -a $BATT_LEVEL -lt 40 ]
 	then
-		echo 'B\uf243' $BATT_LEVEL%
+		BATT_ICON='B\uf243'
 	elif [ $BATT_LEVEL $BATT_LEVEL -lt 20 ]
 	then
-		echo 'B\uf244' $BATT_LEVEL%
+		BATT_ICON='B\uf244'
 	fi
+	#uncomment next and delete the line after that to see percentage
+	#echo $BATT_ICON $BATT_LEVEL%
+	echo $BATT_ICON
 	sleep 30;
 done > "$PANEL_FIFO" &
 
@@ -76,19 +79,18 @@ if [ $ALSA_STATE ]
 then
 	if [ $ALSA_VOLUME -ge 70 ]
 	then
-		echo V'\uf028' $ALSA_VOLUME
-	fi
-	if [ $ALSA_VOLUME -gt 0 -a $ALSA_VOLUME -lt 70 ]
+		VOLUME_ICON='\uf028'
+	elif [ $ALSA_VOLUME -gt 0 -a $ALSA_VOLUME -lt 70 ]
 	then
-		echo V'\uf027' $ALSA_VOLUME
-	fi
-	if [ $ALSA_VOLUME -eq 0 ]
-	then
-		echo V'\uf026' $ALSA_VOLUME
-	fi
+		VOLUME_ICON=V'\uf027'
+	elif [ $ALSA_VOLUME -eq 0 ]
+		VOLUME_ICON=V'\uf026'
 	else
-		echo V'\uf026' $ALSA_VOLUME
+		VOLUME_ICON=V'\uf026'
 	fi
+	# uncomment to see volume percentage
+	#echo $VOLUME_ICON $ALSA_VOLUME
+	echo $VOLUME_ICON
 	sleep 1.0
 done > $PANEL_FIFO &
 

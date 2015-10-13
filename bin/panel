@@ -7,6 +7,7 @@ PANEL_HEIGHT=30
 PANEL_FONT_FAMILY="Source Code Pro for Powerline 13"
 ICON_FONT="FontAwesome:size=15"
 ICON_FONT2="fontcustom:size=17"
+WIFI_INTERFACE="wlp2s0"
 
 # check if panel is already running
 if [ $(pgrep -cx panel) -gt 1 ] ; then
@@ -88,7 +89,7 @@ then
 	else
 		VOLUME_ICON=V'\uf026'
 	fi
-	# uncomment to see volume percentage
+	# uncomment next and delte the line after that to see volume percentage
 	#echo $VOLUME_ICON $ALSA_VOLUME
 	echo $VOLUME_ICON
 	sleep 1.0
@@ -98,10 +99,26 @@ done > $PANEL_FIFO &
 # wifi
 while true;
 do
-WIFI_SSID=$(iw wlp2s0 link | grep 'SSID' | sed 's/SSID: //' | sed 's/\t//')
-WIFI_SIGNAL=$(iw wlp2s0 link | grep 'signal' | sed 's/signal: //' | sed 's/ dBm//' | sed 's/\t//')
-	echo L'\uf1eb' $WIFI_SSID '|' $WIFI_SIGNAL 'dBm'
-	sleep 10
+WIFI_SSID=$(iw $WIFI_INTERFACE link | grep 'SSID' | sed 's/SSID: //' | sed 's/\t//')
+WIFI_SIGNAL=$(iw $WIFI_INTERFACE link | grep 'signal' | sed 's/signal: //' | sed 's/ dBm//' | sed 's/\t//')
+	if [[ $(iw $WIFI_INTERFACE link) != "Not connected." ]]
+	then
+		if [ $WIFI_SIGNAL -ge -67 ]
+		then
+			WIFI_COLOR=$COLOR_SIGNAL_HIGH
+		elif [ $WIFI_SIGNAL -ge -70 -lt -67 ]
+		then
+			WIFI_COLOR=$COLOR_SIGNAL_MEDIUM
+		elif [ $WIFI_SIGNAL -ge -80 -lt -70 ]
+		then
+			WIFI_COLOR=$COLOR_SIGNAL_LOW
+		fi
+		echo "L%{F$WIFI_COLOR}\uf1eb%{F-}"
+	else
+		WIFI_COLOR=$COLOR_SIGNAL_NONE
+		echo "L%{F$WIFI_COLOR}\uf072%{F-}"
+	fi
+		sleep 10
 done > $PANEL_FIFO &
 
 # music controls
@@ -125,9 +142,7 @@ do
 	sleep 1.0
 done > $PANEL_FIFO &
 
-
-. panel_colors
-
+# dump panel into panel_bar and then into lemonbar
 cat "$PANEL_FIFO" | panel_bar | lemonbar -g x$PANEL_HEIGHT -f "$PANEL_FONT_FAMILY" -f "$ICON_FONT" -f "$ICON_FONT2" -F "$COLOR_FOREGROUND" -B "$COLOR_BACKGROUND" -u 2 | zsh &
 
 wait

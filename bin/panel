@@ -4,8 +4,8 @@
 
 PANEL_FIFO=/tmp/panel-fifo
 PANEL_HEIGHT=30
-PANEL_FONT_FAMILY="Source Code Pro for Powerline 13"
-ICON_FONT="FontAwesome:size=15"
+PANEL_FONT_FAMILY="Source Sans Pro Regular:size=13"
+ICON_FONT="FontAwesome:size=16"
 ICON_FONT2="fontcustom:size=17"
 WIFI_INTERFACE="wlp2s0"
 
@@ -34,13 +34,16 @@ bspc control --subscribe > "$PANEL_FIFO" &
 # clock
 while true;
 	do
-		echo 'C\uf017' $(date +"%l:%M %p");
+		# clock icon is \uf017 if you want to add it
+		echo "C$(date +"%l:%M %p") "
 	sleep 30;
 done > "$PANEL_FIFO" &
 
 # date
 while true;
-do echo 'D\uf073' $(date +'%b %d')
+	do
+		# calendar icon is \uf073 if you want to add it
+		echo i"D$(date +'%a, %b %d')"
 	sleep 60
 done > $PANEL_FIFO &
 
@@ -83,15 +86,15 @@ then
 		VOLUME_ICON='\uf028'
 	elif [ $ALSA_VOLUME -gt 0 -a $ALSA_VOLUME -lt 70 ]
 	then
-		VOLUME_ICON=V'\uf027'
+		VOLUME_ICON='\uf027'
 	elif [ $ALSA_VOLUME -eq 0 ]
-		VOLUME_ICON=V'\uf026'
+		VOLUME_ICON='\uf026'
 	else
-		VOLUME_ICON=V'\uf026'
+		VOLUME_ICON='\uf026'
 	fi
 	# uncomment next and delte the line after that to see volume percentage
-	#echo $VOLUME_ICON $ALSA_VOLUME
-	echo $VOLUME_ICON
+	#echo V$VOLUME_ICON $ALSA_VOLUME
+	echo V$VOLUME_ICON
 	sleep 1.0
 done > $PANEL_FIFO &
 

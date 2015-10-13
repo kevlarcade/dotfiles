@@ -43,7 +43,7 @@ done > "$PANEL_FIFO" &
 while true;
 	do
 		# calendar icon is \uf073 if you want to add it
-		echo i"D$(date +'%a, %b %d')"
+		echo "D$(date +'%a, %b %d')"
 	sleep 60
 done > $PANEL_FIFO &
 

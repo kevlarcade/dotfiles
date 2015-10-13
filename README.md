@@ -1,7 +1,7 @@
 ### _please file bugs and requests in the github issues!_
 i have terrible memory so if you tell me something on irc or reddit i'll probably forget about it
 
-![scrot of current desktop](http://i.imgur.com/qfKL82l.png "It never actually looks this clean")
+![scrot of current desktop](screenshot.png) "It never actually looks this clean")
 ## installed software
 Not all of this is required for the configuration, it's just the list of software that I personally use and recommend.
 

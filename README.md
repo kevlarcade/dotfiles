@@ -88,4 +88,13 @@ Not all of this is required for the configuration, it's just the list of softwar
 + **fuck**  yeah, you forgot to sudo
 
 ## notes
-this configuration is used on a laptop with a high-dpi screen, so some things might look oversized when used on a regular screen and many settings are optomized for power saving.  the sleep timers on the panel script should be shortened for use on systems where responsiveness is valued over power consumption.
+many settings are optomised for power saving, the sleep timers on the panel script should be shortened for use on systems where responsiveness is valued over power consumption.
+
+the panel design is evolving fairly rapidly, so updating will probably break your customisations.  i'm working through a few papers right now to try to design it as intuitive and useful as possible.  for reference:
+
+1. Carroll, J.M., Mack, R.L., & Kellogg, W.A. Interface metaphors and user interface design. In M. Helander (Ed.), Handbook of Human-Computer Interaction, Elsevier Science Publishers B.V., 1988.
+2. Erickson, T.D. Working with interface metaphors. In B. Laurel (Ed.), The Art of Human- Computer Interface Design, Addison-Wesley Publishing Co., Inc. 1990.
+3. Gentner, D. Structure mapping: A theoretical framework for analogy. Cognitive Science, 7, 155-170.
+4. Grudin, J. The case against user interface consistency. Communications of the ACM, vol. 32, number 10, 1164-1173, 1989.
+5. Mountford, S.J. Tools and techniques for creative design. In B. Laurel (Ed.), The Art of Human-Computer Interface Design, Addison-Wesley Publishing Co., Inc. 1990.
+6. Rideout, T., & Lundell, J. Hewlett Packard's Usability Engineering Program. In M. E. Wiklund (Ed.), Usability in Practice. AP Professional, 1994. 

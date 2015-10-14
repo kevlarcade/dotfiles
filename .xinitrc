@@ -39,7 +39,8 @@ fi
 sxhkd -f 100 &
 
 # screen temperature adjustment
-# my she-devil of an ex flatmate lives here, probably best to avoid Charlotte altogether.
+# adjust the coordinates for your location.  in case you were thinknig of going to the coordinates listed
+# below, my she-devil of an ex flatmate lives there, and it is probably best to avoid Charlotte altogether.
 redshift -l 35.22:-80.84 &
 
 # desktop wallpaper

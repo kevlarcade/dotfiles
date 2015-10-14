@@ -5,6 +5,9 @@ usermodmap=$HOME/.Xmodmap
 sysresources=/etc/X11/xinit/.Xresources
 sysmodmap=/etc/X11/xinit/.Xmodmap
 
+# Use GTK widgets in place of QT
+export QT_STYLE_OVERRIDE=GTK+
+
 # merge in defaults and keymaps
 
 if [ -f $sysresources ]; then
@@ -36,7 +39,8 @@ fi
 sxhkd -f 100 &
 
 # screen temperature adjustment
-#redshift -l HAHA, NO.  You don't get coordinates to where I live. &
+# my she-devil of an ex flatmate lives here, probably best to avoid Charlotte altogether.
+redshift -l 35.22:-80.84 &
 
 # desktop wallpaper
 sh ~/.fehbg &

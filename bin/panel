@@ -109,10 +109,10 @@ WIFI_SIGNAL=$(iw $WIFI_INTERFACE link | grep 'signal' | sed 's/signal: //' | sed
 		if [ $WIFI_SIGNAL -ge -67 ]
 		then
 			WIFI_COLOR=$COLOR_SIGNAL_HIGH
-		elif [ $WIFI_SIGNAL -ge -70 -lt -67 ]
+		elif [ $WIFI_SIGNAL -ge -70 -a $WIFI_SIGNAL -lt -67 ]
 		then
 			WIFI_COLOR=$COLOR_SIGNAL_MEDIUM
-		elif [ $WIFI_SIGNAL -ge -80 -lt -70 ]
+		elif [ $WIFI_SIGNAL -ge -80 -a $WIFI_SIGNAL -lt -70 ]
 		then
 			WIFI_COLOR=$COLOR_SIGNAL_LOW
 		fi

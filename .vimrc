@@ -17,7 +17,7 @@ call plug#end()
 
 " {{{ plugin settings
 
-" airline options
+" airline
 let g:airline#extensions#tabline#enabled = 1
 let g:airline_section=''
 let g:airline_detect_paste=1 " Show PASTE if in paste mode
@@ -119,6 +119,9 @@ set foldenable
 set foldmethod=marker
 set foldlevel=0
 set foldcolumn=0
+
+" language options
+let python_highlight_all = 1
 
 " colors
 	set t_Co=256

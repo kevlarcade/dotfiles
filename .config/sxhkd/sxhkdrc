@@ -120,6 +120,13 @@ XF86Audio{LowerVolume,RaiseVolume}
 XF86AudioMute
 	amixer -q set Master toggle
 
+# keyboard brightness up
+XF86KbdBrightnessUp
+	kbl up
+
+XF86KbdBrightnessDown
+	kbl down
+
 # make sxhkd reload its configuration files:
 super + Escape
 	pkill -USR1 -x sxhkd

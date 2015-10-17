@@ -1,3 +1,4 @@
+#settings for vimperator, will porbably look ridiculous if used on a non-highdpi monitor
 colorscheme zenburn
 hi CmdLine -append font-size:24px
 hi CompDesc -append font-size:24px

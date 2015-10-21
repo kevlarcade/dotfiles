@@ -157,7 +157,7 @@ set foldcolumn=0
 set t_Co=256
 colorscheme gruvbox
 set background=dark
-hi Normal ctermbg=none	" transparent background
+" hi Normal ctermbg=none	" transparent background
 
 set encoding=utf-8
 

@@ -74,22 +74,28 @@ let g:pymode_folding = 0
 " }}}
 
 " {{{ keybinds
+
 " Define ' ' as map leader
 let mapleader = ' '
 let g:mapleader = ' '
+
 " indenting keybinds
 nnoremap <Tab> >>_
 nnoremap <S-Tab> <<_
 inoremap <S-Tab> <C-D>
 vnoremap <Tab> >gv
 vnoremap <S-Tab> <gv
+
 " Repurpose up and down arrow keys to move between the buffers
-nnoremap <silent> <Down>   :bn<CR>
-nnoremap <silent> <Up>  :bp<CR>
+" nnoremap <silent> <Down>   :bn<CR>
+" nnoremap <silent> <Up>  :bp<CR>
+
 " copy visual
 map <C-c> "+y<CR>
+
 " toggle paste mode
 set pastetoggle=<F2>
+
 " NerdTree
 " silent! nmap <C-p> :NERDTreeToggle<CR>
 silent! map <F3> :NERDTreeFind<CR>
@@ -148,33 +154,33 @@ set foldlevel=0
 set foldcolumn=0
 
 " colors
-	set t_Co=256
-	colorscheme gruvbox
-	set background=dark
-	hi Normal ctermbg=none	" transparent background
+set t_Co=256
+colorscheme gruvbox
+set background=dark
+hi Normal ctermbg=none	" transparent background
 
-	set encoding=utf-8
+set encoding=utf-8
 
-	" General UI Options
-	set mouse=a
-	set showmatch          " Shows matching brackets when text indicator is over them
-	set cursorline
-	set scrolljump=10
-	set ttyfast            " Improves redrawing for newer computers
-	set pumheight=20       " popup menu height
-	set diffopt+=context:3
-	set nostartofline      " when moving thru the lines, the cursor will try to stay in the previous columns
+" General UI Options
+set mouse=a
+set showmatch          " Shows matching brackets when text indicator is over them
+set cursorline
+set scrolljump=10
+set ttyfast            " Improves redrawing for newer computers
+set pumheight=20       " popup menu height
+set diffopt+=context:3
+set nostartofline      " when moving thru the lines, the cursor will try to stay in the previous columns
 
-	" LAYOUT / TEXT FORMATTING
-	" Formatting Options
-	set wrap " Soft Wrap in all files, while hard wrap can be allow by filetype
-	set linebreak " It maintains the whole words when wrapping
-	set smartindent
-	execute "set colorcolumn=" . join(range(81,335), ',')
+" LAYOUT / TEXT FORMATTING
+" Formatting Options
+set wrap " Soft Wrap in all files, while hard wrap can be allow by filetype
+set linebreak " It maintains the whole words when wrapping
+set smartindent
+execute "set colorcolumn=" . join(range(81,335), ',')
 
-	" Open new split panes to right and bottom, which feels more natural
-	set splitbelow
-	set splitright
+" Open new split panes to right and bottom, which feels more natural
+set splitbelow
+set splitright
 
 " gvim options - remove the toolbar.
 set guioptions-=L

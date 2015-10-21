@@ -1,13 +1,7 @@
-#!/bin/bash
+#!/bin/zsh
 
 . panel_colors
-
-PANEL_FIFO=/tmp/panel-fifo
-PANEL_HEIGHT=30
-PANEL_FONT_FAMILY="Source Sans Pro Regular:size=13"
-ICON_FONT="FontAwesome:size=16"
-ICON_FONT2="fontcustom:size=17"
-WIFI_INTERFACE="wlp2s0"
+. panel_config
 
 # check if panel is already running
 if [[ $(pgrep -cx panel) -gt 1 ]]; then
@@ -23,7 +17,7 @@ trap 'trap - TERM; kill 0' INT TERM QUIT EXIT
 mkfifo "$PANEL_FIFO"
 
 # set up bspwm to not overlap the panel
-bspc config top_padding $PANEL_HEIGHT
+bspc config top_padding "$PANEL_HEIGHT"
 
 # get bspwms status feed
 bspc control --subscribe > "$PANEL_FIFO" &
@@ -43,7 +37,7 @@ while true; do
 	# calendar icon is \uf073 if you want to add it
 	echo -e "D$(date +'%a, %b %d')"
 	sleep 60
-done > $PANEL_FIFO &
+done > "$PANEL_FIFO" &
 
 # battery
 while true; do
@@ -83,22 +77,22 @@ while true; do
     	# uncomment next and delte the line after that to see volume percentage
     	#echo -e V$VOLUME_ICON $ALSA_VOLUME
     	echo -e V$VOLUME_ICON
-    	sleep 1.0
     fi
-done > $PANEL_FIFO &
+    sleep 2.0
+done > "$PANEL_FIFO" &
 
 # weechat (work in progress)
 while true; do
 	WEECHAT_ICON='\uf0e5'
 	echo -e w$WEECHAT_ICON
 	sleep 5
-done > $PANEL_FIFO &
+done > "$PANEL_FIFO" &
 
 # wifi
 while true; do
 #   WIFI_SSID=$(iw $WIFI_INTERFACE link | grep 'SSID' | sed 's/SSID: //' | sed 's/\t//')
-    WIFI_SIGNAL=$(iw $WIFI_INTERFACE link | grep 'signal' | sed 's/signal: //' | sed 's/ dBm//' | sed 's/\t//')
-	if [[ $(iw $WIFI_INTERFACE link) != "Not connected." ]]; then
+    WIFI_SIGNAL=$(iw "$WIFI_INTERFACE" link | grep 'signal' | sed 's/signal: //' | sed 's/ dBm//' | sed 's/\t//')
+	if [[ $(iw "$WIFI_INTERFACE" link) != "Not connected." ]]; then
 		if [[ $WIFI_SIGNAL -ge -67 ]]; then
 			WIFI_COLOR=$COLOR_SIGNAL_HIGH
 		elif [[ $WIFI_SIGNAL -ge -70 && $WIFI_SIGNAL -lt -67 ]]; then
@@ -112,7 +106,7 @@ while true; do
 		echo -e "L%{F$WIFI_COLOR}\uf072%{F-}"
 	fi
 		sleep 10
-done > $PANEL_FIFO &
+done > "$PANEL_FIFO" &
 
 # music controls
 while true; do
@@ -129,10 +123,10 @@ while true; do
 			echo -e "R%{F$COLOR_FOCUSED_OCCUPIED_FG}%{T3}%{A:mpc prev:}\uf19c %{A}%{A:mpc pause:}%{A3:mpc clear:}$SONG_NAME%{A}%{A}%{A:mpc next:} \uf17c%{A}%{T1}%{F-}"
 		fi
 	fi
-	sleep 1.0
-done > $PANEL_FIFO &
+	sleep 2.0
+done > "$PANEL_FIFO" &
 
 # dump panel into panel_bar and then into lemonbar
-panel_bar < $PANEL_FIFO | lemonbar -g x$PANEL_HEIGHT -f "$PANEL_FONT_FAMILY" -f "$ICON_FONT" -f "$ICON_FONT2" -F "$COLOR_FOREGROUND" -B "$COLOR_BACKGROUND" -u 2 | zsh &
+panel_bar < "$PANEL_FIFO" | lemonbar -g x"$PANEL_HEIGHT" -f "$PANEL_FONT" -f "$ICON_FONT" -f "$ICON_FONT2" -F "$COLOR_FOREGROUND" -B "$COLOR_BACKGROUND" -u 2 | zsh &
 
 wait

@@ -1,4 +1,4 @@
-### _please file bugs and requests in the github issues!_
+### _short delay while I convert panel to python_
 i have terrible memory so if you tell me something on irc or reddit i'll probably forget about it
 
 ![scrot of current desktop](screenshot.png)

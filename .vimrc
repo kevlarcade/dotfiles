@@ -1,7 +1,3 @@
-" tab options
-set shiftwidth=4
-set tabstop=4
-
 " {{{ plugins
 call plug#begin('~/.vim/plugged')
 	Plug 'morhetz/gruvbox'						" theme
@@ -12,6 +8,7 @@ call plug#begin('~/.vim/plugged')
 	Plug 'jiangmiao/auto-pairs'					" spawn matched brackets / quotes
 	Plug 'scrooloose/nerdtree'					" file browser
 	Plug 'jistr/vim-nerdtree-tabs'				" file browser tabs
+	Plug 'klen/python-mode'
 call plug#end()
 " }}}
 
@@ -25,6 +22,7 @@ let g:airline_powerline_fonts = 1
 if !exists('g:airline_symbols')
     let g:airline_symbols = {}
 endif
+
 " unicode symbols
 let g:airline_left_sep = '»'
 let g:airline_left_sep = '▶'
@@ -46,9 +44,33 @@ let g:airline_right_alt_sep = ''
 let g:airline_symbols.branch = ''
 let g:airline_symbols.readonly = ''
 let g:airline_symbols.linenr = ''
+
 " NERDTree
 nmap <silent><Leader>t :NERDTreeTabsToggle<CR> " open NERDTree with \t
 let g:nerdtree_tabs_open_on_console_startup=0 " don't open NERDTree on startup
+
+" python-mode
+let g:pymode_rope = 1
+" Documentation
+let g:pymode_doc = 1
+let g:pymode_doc_key = 'K'
+" Linting
+let g:pymode_lint = 1
+let g:pymode_lint_checker = "pyflakes,pep8"
+" Auto check on save
+let g:pymode_lint_write = 1
+" Support virtualenv
+let g:pymode_virtualenv = 1
+" Enable breakpoints plugin
+let g:pymode_breakpoint = 1
+let g:pymode_breakpoint_bind = '<leader>b'
+" Syntax highlighting
+let g:pymode_syntax = 1
+let g:pymode_syntax_all = 1
+let g:pymode_syntax_indent_errors = g:pymode_syntax_all
+let g:pymode_syntax_space_errors = g:pymode_syntax_all
+" Don't autofold code
+let g:pymode_folding = 0
 " }}}
 
 " {{{ keybinds
@@ -74,6 +96,11 @@ silent! map <F3> :NERDTreeFind<CR>
 let g:NERDTreeMapActivateNode="<F3>"
 let g:NERDTreeMapPreview="<F4>"
 " }}}
+
+" tab options
+set tabstop=4
+set shiftwidth=4
+set expandtab
 
 " set title and allow hidden buffers
 set title
@@ -120,9 +147,6 @@ set foldmethod=marker
 set foldlevel=0
 set foldcolumn=0
 
-" language options
-let python_highlight_all = 1
-
 " colors
 	set t_Co=256
 	colorscheme gruvbox
@@ -146,6 +170,7 @@ let python_highlight_all = 1
 	set wrap " Soft Wrap in all files, while hard wrap can be allow by filetype
 	set linebreak " It maintains the whole words when wrapping
 	set smartindent
+	execute "set colorcolumn=" . join(range(81,335), ',')
 
 	" Open new split panes to right and bottom, which feels more natural
 	set splitbelow

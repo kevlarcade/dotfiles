@@ -85,7 +85,7 @@ done > "$PANEL_FIFO" &
 while true; do
 	WEECHAT_ICON='\uf0e5'
 	echo -e w$WEECHAT_ICON
-	sleep 5
+	sleep 60
 done > "$PANEL_FIFO" &
 
 # wifi

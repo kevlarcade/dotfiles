@@ -1,5 +1,6 @@
 # File locations
 PANEL_FIFO=/tmp/panel-fifo
+MSGFILE=$HOME/.weechat/highlights.txt
 
 # Hardware
 WIFI_INTERFACE="wlp2s0"

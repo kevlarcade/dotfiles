@@ -85,11 +85,16 @@ while true; do
     sleep 2.0
 done > "$PANEL_FIFO" &
 
-# weechat (work in progress)
+# weechat (use hl2file weechat script)
 while true; do
-	WEECHAT_ICON='\uf0e5'
-	echo -e MESSAGE$WEECHAT_ICON
-	sleep 60
+    UNREADMESSAGES=$(wc -l < "$MSGFILE")
+    if [[ $UNREADMESSAGES != 0 ]]; then
+        WEECHAT_ICON="\uf075  [$UNREADMESSAGES]"
+    else
+        WEECHAT_ICON='\uf0e5'
+    fi
+    echo -e MESSAGE$WEECHAT_ICON
+	sleep 5
 done > "$PANEL_FIFO" &
 
 # email (work in progress)

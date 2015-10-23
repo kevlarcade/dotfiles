@@ -1,0 +1,11 @@
+# File locations
+PANEL_FIFO=/tmp/panel-fifo
+WIFI_INTERFACE="wlp2s0"
+
+# Dimensions
+PANEL_HEIGHT=30
+
+# Fonts
+PANEL_FONT="Source Sans Pro Regular:size=13"
+ICON_FONT="FontAwesome:size=16"
+ICON_FONT2="fontcustom:size=17"

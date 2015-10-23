@@ -23,19 +23,19 @@ bspc config top_padding "$PANEL_HEIGHT"
 bspc control --subscribe > "$PANEL_FIFO" &
 
 # window title
-# xtitle -sf 'T%s' > "$PANEL_FIFO" &
+# xtitle -sf 'TITLE%s' > "$PANEL_FIFO" &
 
 # clock
 while true; do
 	# clock icon is \uf017 if you want to add it
-	echo -e "C$(date +"%l:%M %p") "
+	echo -e "TIME$(date +"%l:%M %p") "
 	sleep 30;
 done > "$PANEL_FIFO" &
 
 # date
 while true; do
 	# calendar icon is \uf073 if you want to add it
-	echo -e "D$(date +'%a, %b %d')"
+	echo -e "DAY$(date +'%a, %b %d')"
 	sleep 60
 done > "$PANEL_FIFO" &
 
@@ -43,19 +43,19 @@ done > "$PANEL_FIFO" &
 while true; do
     BATT_LEVEL=$(acpi -b | grep -o '[[:digit:]]\+%' | sed 's/%//')
 	if [[ $BATT_LEVEL -ge 80 ]]; then
-		BATT_ICON='B\uf240'
+		BATT_ICON='\uf240'
 	elif [[ $BATT_LEVEL -ge 60 && $BATT_LEVEL -lt 80 ]]; then
-		BATT_ICON='B\uf241'
+		BATT_ICON='\uf241'
 	elif [[ $BATT_LEVEL -ge 40 && $BATT_LEVEL -lt 60 ]]; then
-		BATT_ICON='B\uf242'
+		BATT_ICON='\uf242'
 	elif [[ $BATT_LEVEL -ge 20 && $BATT_LEVEL -lt 40 ]]; then
-		BATT_ICON='B\uf243'
+		BATT_ICON='\uf243'
 	elif [[ $BATT_LEVEL -lt 20 ]]; then
-		BATT_ICON='B\uf244'
+		BATT_ICON='\uf244'
 	fi
 	#uncomment next and delete the line after that to see percentage
 	#echo -e $BATT_ICON $BATT_LEVEL%
-	echo -e $BATT_ICON
+	echo -e BAT$BATT_ICON
 	sleep 30;
 done > "$PANEL_FIFO" &
 
@@ -76,7 +76,7 @@ while true; do
     	fi
     	# uncomment next and delte the line after that to see volume percentage
     	#echo -e V$VOLUME_ICON $ALSA_VOLUME
-    	echo -e V$VOLUME_ICON
+    	echo -e VOL$VOLUME_ICON
     fi
     sleep 2.0
 done > "$PANEL_FIFO" &
@@ -84,7 +84,14 @@ done > "$PANEL_FIFO" &
 # weechat (work in progress)
 while true; do
 	WEECHAT_ICON='\uf0e5'
-	echo -e w$WEECHAT_ICON
+	echo -e MESSAGE$WEECHAT_ICON
+	sleep 60
+done > "$PANEL_FIFO" &
+
+# email (work in progress)
+while true; do
+	EMAIL_ICON='\uf003'
+	echo -e EMAIL$EMAIL_ICON
 	sleep 60
 done > "$PANEL_FIFO" &
 
@@ -100,10 +107,10 @@ while true; do
 		elif [[ $WIFI_SIGNAL -ge -80 && $WIFI_SIGNAL -lt -70 ]]; then
 			WIFI_COLOR=$COLOR_SIGNAL_LOW
 		fi
-		echo -e "L%{F$WIFI_COLOR}\uf1eb%{F-}"
+		echo -e "LINK%{F$WIFI_COLOR}\uf1eb%{F-}"
 	else
 		WIFI_COLOR=$COLOR_SIGNAL_NONE
-		echo -e "L%{F$WIFI_COLOR}\uf072%{F-}"
+		echo -e "LINK%{F$WIFI_COLOR}\uf072%{F-}"
 	fi
 		sleep 10
 done > "$PANEL_FIFO" &
@@ -113,14 +120,14 @@ while true; do
 	SONG_NAME=$(mpc current)
 	if [[ -z $(mpc current) ]]; then
 		# no music in playlist, or mpd is not running
-		echo -e "R%{F$COLOR_INACTIVE_MONITOR_FG}%{T3}%{A:mpc listall | mpc add; mpc shuffle; mpc play:}%{A3:mpd:}\uf19c  \uf198  \uf17c%{A}%{A}%{T1}%{F-}"
+		echo -e "MUSIC%{F$COLOR_INACTIVE_MONITOR_FG}%{T3}%{A:mpc listall | mpc add; mpc shuffle; mpc play:}%{A3:mpd:}\uf19c  \uf198  \uf17c%{A}%{A}%{T1}%{F-}"
 	else
         if mpc status | grep -q 'paused'; then
 			# music is paused
-			echo -e "R%{F$COLOR_INACTIVE_MONITOR_FG}%{T3}%{A:mpc prev:}\uf19c %{A}%{A:mpc play:}%{A3:mpc clear:}$SONG_NAME%{A}%{A}%{A:mpc next:} \uf17c%{A}%{T1}%{F-}"
+			echo -e "MUSIC%{F$COLOR_INACTIVE_MONITOR_FG}%{T3}%{A:mpc prev:}\uf19c %{A}%{A:mpc play:}%{A3:mpc clear:}$SONG_NAME%{A}%{A}%{A:mpc next:} \uf17c%{A}%{T1}%{F-}"
 		else
 			# music is playing
-			echo -e "R%{F$COLOR_FOCUSED_OCCUPIED_FG}%{T3}%{A:mpc prev:}\uf19c %{A}%{A:mpc pause:}%{A3:mpc clear:}$SONG_NAME%{A}%{A}%{A:mpc next:} \uf17c%{A}%{T1}%{F-}"
+			echo -e "MUSIC%{F$COLOR_FOCUSED_OCCUPIED_FG}%{T3}%{A:mpc prev:}\uf19c %{A}%{A:mpc pause:}%{A3:mpc clear:}$SONG_NAME%{A}%{A}%{A:mpc next:} \uf17c%{A}%{T1}%{F-}"
 		fi
 	fi
 	sleep 2.0

@@ -6,41 +6,53 @@ PADDING="  "
 
 while read -r line ; do
 	case $line in
-		D*)
+		DAY*)
 			# date output
 			# date has no padding so it is snug with time, append $PADDING if you want
 			# you will want to add padding if you use an icon with time
-			date="$PADDING${line#?}"
+			date="$PADDING${line#???}"
 			;;
-		R*)
+
+        EMAIL*)
+            # email alerts
+            email="$PADDING${line#?????}$PADDING"
+            ;;
+
+        MESSAGE*)
+            # Weechat messages
+            messages="$PADDING${line#???????}$PADDING"
+            ;;
+
+		MUSIC*)
 			# music info
-			music="$PADDING${line#?}$PADDING"
+			music="$PADDING${line#?????}$PADDING"
 			;;
-		C*)
+		TIME*)
 			# clock output
 			# clock has no padding so it is snug with date, prepend $PADDING if you want
 			# you will want to add padding iy you use an icon with time
-			clock="$PADDING${line#?}$PADDING"
+			clock="$PADDING${line#????}$PADDING"
 			;;
 
-		B*)
+		BAT*)
 			# battery percent output
-			battery="%{A:bat.sh:}$PADDING${line#?}$PADDING%{A}"
+			battery="$PADDING${line#???}$PADDING"
 			;;
 
 # uncomment for window title support
-#		T*)
+#		TITLE*)
 #			# xtitle output
-#			title="${line#?}$PADDING$PADDING"
+#			title="${line#?????}$PADDING$PADDING"
 #			;;
 
-		V*)
+		VOL*)
 			# alsa volume
-			volume="$PADDING${line#?}$PADDING"
+			volume="$PADDING${line#???}$PADDING"
 			;;
-		L*)
+
+		LINK*)
 			# wifi link
-			wifi="$PADDING${line#?}$PADDING"
+			wifi="$PADDING${line#????}$PADDING"
 			;;
 
 		W*)
@@ -93,5 +105,5 @@ while read -r line ; do
 			done
 			;;
 	esac
-	printf "%s\n" "%{l}${wm_infos}%{c}${music}%{r}${wifi}${volume}${battery}${date}${clock}"
+	printf "%s\n" "%{l}${wm_infos}%{c}${music}%{r}${messages}${email}${wifi}${volume}${battery}${date}${clock}"
 done

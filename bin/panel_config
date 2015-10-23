@@ -1,6 +1,10 @@
 # File locations
 PANEL_FIFO=/tmp/panel-fifo
+
+# Hardware
 WIFI_INTERFACE="wlp2s0"
+POWERSUPPLY="/sys/class/power_supply/AC0"
+BATTERY="/sys/class/power_supply/BAT0"
 
 # Dimensions
 PANEL_HEIGHT=30

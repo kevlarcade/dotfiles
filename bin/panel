@@ -42,7 +42,8 @@ done > "$PANEL_FIFO" &
 # battery
 while true; do
     BATT_LEVEL=$(acpi -b | grep -o '[[:digit:]]\+%' | sed 's/%//')
-	if [[ $BATT_LEVEL -ge 80 ]]; then
+    if [[ $(cat $POWERSUPPLY/online) != 1 ]]; then
+    if [[ $BATT_LEVEL -ge 80 ]]; then
 		BATT_ICON='\uf240'
 	elif [[ $BATT_LEVEL -ge 60 && $BATT_LEVEL -lt 80 ]]; then
 		BATT_ICON='\uf241'
@@ -53,6 +54,9 @@ while true; do
 	elif [[ $BATT_LEVEL -lt 20 ]]; then
 		BATT_ICON='\uf244'
 	fi
+    else
+        BATT_ICON='\uf1e6'
+    fi
 	#uncomment next and delete the line after that to see percentage
 	#echo -e $BATT_ICON $BATT_LEVEL%
 	echo -e BAT$BATT_ICON

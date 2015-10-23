@@ -1,6 +1,3 @@
-### _short delay while I convert panel to python_
-i have terrible memory so if you tell me something on irc or reddit i'll probably forget about it
-
 ![scrot of current desktop](screenshot.png)
 ## installed software
 Not all of this is required for the configuration, it's just the list of software that I personally use and recommend.

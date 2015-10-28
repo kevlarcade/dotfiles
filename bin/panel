@@ -42,7 +42,7 @@ done > "$PANEL_FIFO" &
 # battery
 while true; do
     BATT_LEVEL=$(acpi -b | grep -o '[[:digit:]]\+%' | sed 's/%//')
-    if [[ $(cat $POWERSUPPLY/online) != 1 ]]; then
+    if [[ $(cat "$POWERSUPPLY/online") != 1 ]]; then
     if [[ $BATT_LEVEL -ge 80 ]]; then
 		BATT_ICON='\uf240'
 	elif [[ $BATT_LEVEL -ge 60 && $BATT_LEVEL -lt 80 ]]; then
@@ -88,20 +88,34 @@ done > "$PANEL_FIFO" &
 # weechat (use hl2file weechat script)
 while true; do
     UNREADMESSAGES=$(wc -l < "$MSGFILE")
-    if [[ $UNREADMESSAGES != 0 ]]; then
-        WEECHAT_ICON="\uf075  [$UNREADMESSAGES]"
+    if [[ -z $UNREADMESSAGES || $UNREADMESSAGES = 0 ]]; then
+        WEECHAT_ICON='\uf0e5 '
     else
-        WEECHAT_ICON='\uf0e5'
+        WEECHAT_ICON="\uf075 $UNREADMESSAGES"
     fi
-    echo -e MESSAGE$WEECHAT_ICON
+    echo -e "MESSAGE$WEECHAT_ICON"
 	sleep 5
 done > "$PANEL_FIFO" &
 
-# email (work in progress)
+# email
 while true; do
-	EMAIL_ICON='\uf003'
-	echo -e EMAIL$EMAIL_ICON
-	sleep 60
+    NEWEMAILS=$(ls $HOME/mail/gmail/gmail/new | wc -l)
+#   NEWEMAILS=$(( $NEWEMAILS - 1 ))
+    if [[ -z $NEWEMAILS || $NEWEMAILS = 0 ]]; then
+	    EMAIL_ICON='\uf003'
+    else
+        EMAIL_ICON="\uf0e0 $NEWEMAILS"
+    fi
+    echo -e EMAIL$EMAIL_ICON
+	sleep 300
+done > "$PANEL_FIFO" &
+
+# newsbeuter
+while true; do
+    UNREAD_NEWS=$(echo $(newsbeuter -x print-unread) | sed 's/[^0-9]*//g')
+    NEWS_ICON='\uf1ea'
+    echo -e NEWS$NEWS_ICON $UNREAD_NEWS
+    sleep 60
 done > "$PANEL_FIFO" &
 
 # wifi
@@ -136,13 +150,21 @@ while true; do
 			echo -e "MUSIC%{F$COLOR_INACTIVE_MONITOR_FG}%{T3}%{A:mpc prev:}\uf19c %{A}%{A:mpc play:}%{A3:mpc clear:}$SONG_NAME%{A}%{A}%{A:mpc next:} \uf17c%{A}%{T1}%{F-}"
 		else
 			# music is playing
-			echo -e "MUSIC%{F$COLOR_FOCUSED_OCCUPIED_FG}%{T3}%{A:mpc prev:}\uf19c %{A}%{A:mpc pause:}%{A3:mpc clear:}$SONG_NAME%{A}%{A}%{A:mpc next:} \uf17c%{A}%{T1}%{F-}"
+			echo -e "MUSIC%{F$COLOR_FOCUSED_OCCUPIED_FG}%{T3}%{A:mpc prev:}\uf19c %{A}%{A:mpc pause:}%{A3:mpc next:}$SONG_NAME%{A}%{A}%{A:mpc next:} \uf17c%{A}%{T1}%{F-}"
 		fi
 	fi
 	sleep 2.0
 done > "$PANEL_FIFO" &
 
 # dump panel into panel_bar and then into lemonbar
-panel_bar < "$PANEL_FIFO" | lemonbar -g x"$PANEL_HEIGHT" -f "$PANEL_FONT" -f "$ICON_FONT" -f "$ICON_FONT2" -F "$COLOR_FOREGROUND" -B "$COLOR_BACKGROUND" -u 2 | zsh &
+panel_bar < "$PANEL_FIFO" | lemonbar \
+    -g x"$PANEL_HEIGHT" \
+    -f "$PANEL_FONT" \
+    -f "$ICON_FONT" \
+    -f "$ICON_FONT2" \
+    -F "$COLOR_FOREGROUND" \
+    -B "$COLOR_BACKGROUND" \
+    -u 2 \
+    | zsh &
 
 wait

@@ -23,6 +23,11 @@ while read -r line ; do
             messages="$PADDING${line#???????}$PADDING"
             ;;
 
+        NEWS*)
+            # Newbeuter articles
+            news="$PADDING${line#????}$PADDING"
+            ;;
+
 		MUSIC*)
 			# music info
 			music="$PADDING${line#?????}$PADDING"
@@ -105,5 +110,5 @@ while read -r line ; do
 			done
 			;;
 	esac
-	printf "%s\n" "%{l}${wm_infos}%{c}${music}%{r}${messages}${email}${wifi}${volume}${battery}${date}${clock}"
+	printf "%s\n" "%{l}${wm_infos}%{c}${music}%{r}${news}${messages}${email}${wifi}${volume}${battery}${date}${clock}"
 done

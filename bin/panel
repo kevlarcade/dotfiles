@@ -27,40 +27,48 @@ bspc control --subscribe > "$PANEL_FIFO" &
 
 # clock
 while true; do
-	# clock icon is \uf017 if you want to add it
-	echo -e "TIME$(date +"%l:%M %p") "
-	sleep 30;
+	echo -e "TIME$ICON_CLOCK$(date +"%l:%M %p") "
+	if [[ $(cat "$POWERSUPPLY/online") = 1 ]]; then
+        sleep $REFRESH_CLOCK_FAST
+    else
+        sleep $REFRESH_CLOCK_SLOW
+    fi
 done > "$PANEL_FIFO" &
 
 # date
 while true; do
-	# calendar icon is \uf073 if you want to add it
-	echo -e "DAY$(date +'%a, %b %d')"
-	sleep 60
+	echo -e "DAY$ICON_DATE$(date +'%a, %b %d')"
+	if [[ $(cat "$POWERSUPPLY/online") = 1 ]]; then
+        sleep $REFRESH_DATE_FAST
+    else
+        sleep $REFRESH_DATE_SLOW
+    fi
 done > "$PANEL_FIFO" &
 
 # battery
 while true; do
     BATT_LEVEL=$(acpi -b | grep -o '[[:digit:]]\+%' | sed 's/%//')
     if [[ $(cat "$POWERSUPPLY/online") != 1 ]]; then
-    if [[ $BATT_LEVEL -ge 80 ]]; then
-		BATT_ICON='\uf240'
-	elif [[ $BATT_LEVEL -ge 60 && $BATT_LEVEL -lt 80 ]]; then
-		BATT_ICON='\uf241'
-	elif [[ $BATT_LEVEL -ge 40 && $BATT_LEVEL -lt 60 ]]; then
-		BATT_ICON='\uf242'
-	elif [[ $BATT_LEVEL -ge 20 && $BATT_LEVEL -lt 40 ]]; then
-		BATT_ICON='\uf243'
-	elif [[ $BATT_LEVEL -lt 20 ]]; then
-		BATT_ICON='\uf244'
-	fi
+        if [[ $BATT_LEVEL -ge 80 ]]; then
+            REFRESH_BATTERY=$REFRESH_BATTERY_SLOW
+	    	BATT_ICON=$ICON_BATTERY_FULL
+    	elif [[ $BATT_LEVEL -ge 60 && $BATT_LEVEL -lt 80 ]]; then
+	    	BATT_ICON=$ICON_BATTERY_THREEQUARTERS
+    	elif [[ $BATT_LEVEL -ge 40 && $BATT_LEVEL -lt 60 ]]; then
+	    	BATT_ICON=$ICON_BATTERY_HALF
+    	elif [[ $BATT_LEVEL -ge 20 && $BATT_LEVEL -lt 40 ]]; then
+	    	BATT_ICON=$ICON_BATTERY_QUARTER
+    	elif [[ $BATT_LEVEL -lt 20 ]]; then
+	    	BATT_ICON=$ICON_BATTERY_EMPTY
+    	fi
     else
-        BATT_ICON='\uf1e6'
+        REFRESH_BATTERY=$REFRESH_BATTERY_FAST
+        BATT_ICON=$ICON_BATTERY_CHARGING
     fi
 	#uncomment next and delete the line after that to see percentage
 	#echo -e $BATT_ICON $BATT_LEVEL%
 	echo -e BAT$BATT_ICON
-	sleep 30;
+	sleep $REFRESH_BATTERY
 done > "$PANEL_FIFO" &
 
 # alsa volume
@@ -70,52 +78,68 @@ while true; do
 
     if [[ $ALSA_STATE ]]; then
     	if [[ $ALSA_VOLUME -ge 70 ]]; then
-    		VOLUME_ICON='\uf028'
+    		VOLUME_ICON=$ICON_VOLUME_HIGH
     	elif [[ $ALSA_VOLUME -gt 0 && $ALSA_VOLUME -lt 70 ]]; then
-    		VOLUME_ICON='\uf027'
-    	elif [[ $ALSA_VOLUME -eq 0 ]]; then
-	    	VOLUME_ICON='\uf026'
+    		VOLUME_ICON=$ICON_VOLUME_LOW
     	else
-	    	VOLUME_ICON='\uf026'
+	    	VOLUME_ICON=$ICON_VOMLUME_MUTE
     	fi
-    	# uncomment next and delte the line after that to see volume percentage
+    	# uncomment next and deliete the line after that to see volume percentage
     	#echo -e V$VOLUME_ICON $ALSA_VOLUME
-    	echo -e VOL$VOLUME_ICON
+    	echo -e VOL$VOLUME_ICON$REFRESH_VOLUME
     fi
-    sleep 2.0
+    if [[ $(cat "$POWERSUPPLY/online") = 1 ]]; then
+        sleep $REFRESH_VOLUME_FAST
+    else
+        sleep $REFRESH_VOLUME_SLOW
+    fi
 done > "$PANEL_FIFO" &
 
 # weechat (use hl2file weechat script)
 while true; do
     UNREADMESSAGES=$(wc -l < "$MSGFILE")
     if [[ -z $UNREADMESSAGES || $UNREADMESSAGES = 0 ]]; then
-        WEECHAT_ICON='\uf0e5 '
+        WEECHAT_ICON="$ICON_CHAT_NONE "
     else
-        WEECHAT_ICON="\uf075 $UNREADMESSAGES"
+        WEECHAT_ICON="$ICON_CHAT_NEW $UNREADMESSAGES"
     fi
     echo -e "MESSAGE$WEECHAT_ICON"
-	sleep 5
+	if [[ $(cat "$POWERSUPPLY/online") = 1 ]]; then
+        sleep $REFRESH_CHAT_FAST
+    else
+        sleep $REFRESH_CHAT_SLOW
+    fi
 done > "$PANEL_FIFO" &
 
 # email
 while true; do
-    NEWEMAILS=$(ls $HOME/mail/gmail/gmail/new | wc -l)
-#   NEWEMAILS=$(( $NEWEMAILS - 1 ))
+    NEWEMAILS=$(ls $NEWMAILDIR | wc -l)
     if [[ -z $NEWEMAILS || $NEWEMAILS = 0 ]]; then
-	    EMAIL_ICON='\uf003'
+	    EMAIL_ICON=$ICON_EMAIL_NONE
     else
-        EMAIL_ICON="\uf0e0 $NEWEMAILS"
+        EMAIL_ICON="$ICON_EMAIL_NEW $NEWEMAILS"
     fi
     echo -e EMAIL$EMAIL_ICON
-	sleep 300
+	if [[ $(cat "$POWERSUPPLY/online") = 1 ]]; then
+        sleep $REFRESH_EMAIL_FAST
+    else
+        sleep $REFRESH_EMAIL_SLOW
+    fi
 done > "$PANEL_FIFO" &
 
 # newsbeuter
 while true; do
     UNREAD_NEWS=$(echo $(newsbeuter -x print-unread) | sed 's/[^0-9]*//g')
-    NEWS_ICON='\uf1ea'
-    echo -e NEWS$NEWS_ICON $UNREAD_NEWS
-    sleep 60
+    if [[ -z $UNREAD_NEWS || $UNREAD_NEWS = 0 ]]; then
+	    echo -e NEWS$ICON_NEWS_NONE
+    else
+        echo -e NEWS$ICON_NEWS_NEW $UNREAD_NEWS
+    fi
+    	if [[ $(cat "$POWERSUPPLY/online") = 1 ]]; then
+        sleep $REFRESH_NEWS_FAST
+    else
+        sleep $REFRESH_NEWS_SLOW
+    fi
 done > "$PANEL_FIFO" &
 
 # wifi
@@ -130,12 +154,16 @@ while true; do
 		elif [[ $WIFI_SIGNAL -ge -80 && $WIFI_SIGNAL -lt -70 ]]; then
 			WIFI_COLOR=$COLOR_SIGNAL_LOW
 		fi
-		echo -e "LINK%{F$WIFI_COLOR}\uf1eb%{F-}"
+		echo -e "LINK%{F$WIFI_COLOR}$ICON_WIFI_CONNECTED%{F-}"
 	else
 		WIFI_COLOR=$COLOR_SIGNAL_NONE
-		echo -e "LINK%{F$WIFI_COLOR}\uf072%{F-}"
+		echo -e "LINK%{F$WIFI_COLOR}$ICON_WIFI_DISCONNECTED%{F-}"
 	fi
-		sleep 10
+	if [[ $(cat "$POWERSUPPLY/online") = 1 ]]; then
+        sleep $REFRESH_WIFI_FAST
+    else
+        sleep $REFRESH_WIFI_SLOW
+    fi
 done > "$PANEL_FIFO" &
 
 # music controls
@@ -143,17 +171,21 @@ while true; do
 	SONG_NAME=$(mpc current)
 	if [[ -z $(mpc current) ]]; then
 		# no music in playlist, or mpd is not running
-		echo -e "MUSIC%{F$COLOR_INACTIVE_MONITOR_FG}%{T3}%{A:mpc listall | mpc add; mpc shuffle; mpc play:}%{A3:mpd:}\uf19c  \uf198  \uf17c%{A}%{A}%{T1}%{F-}"
+		echo -e "MUSIC%{F$COLOR_INACTIVE_MONITOR_FG}%{T3}%{A:mpc listall | mpc add; mpc shuffle; mpc play:}%{A3:mpd:}$ICON_MEDIA_BACK  $ICON_MEDIA_PLAY  $ICON_MEDIA_FORWARD%{A}%{A}%{T1}%{F-}"
 	else
         if mpc status | grep -q 'paused'; then
 			# music is paused
-			echo -e "MUSIC%{F$COLOR_INACTIVE_MONITOR_FG}%{T3}%{A:mpc prev:}\uf19c %{A}%{A:mpc play:}%{A3:mpc clear:}$SONG_NAME%{A}%{A}%{A:mpc next:} \uf17c%{A}%{T1}%{F-}"
+			echo -e "MUSIC%{F$COLOR_INACTIVE_MONITOR_FG}%{T3}%{A:mpc prev:}$ICON_MEDIA_BACK %{A}%{A:mpc play:}%{A3:mpc clear:}$SONG_NAME%{A}%{A}%{A:mpc next:} $ICON_MEDIA_FORWARD%{A}%{T1}%{F-}"
 		else
 			# music is playing
-			echo -e "MUSIC%{F$COLOR_FOCUSED_OCCUPIED_FG}%{T3}%{A:mpc prev:}\uf19c %{A}%{A:mpc pause:}%{A3:mpc next:}$SONG_NAME%{A}%{A}%{A:mpc next:} \uf17c%{A}%{T1}%{F-}"
+			echo -e "MUSIC%{F$COLOR_FOCUSED_OCCUPIED_FG}%{T3}%{A:mpc prev:}$ICON_MEDIA_BACK %{A}%{A:mpc pause:}%{A3:mpc next:}$SONG_NAME%{A}%{A}%{A:mpc next:} $ICON_MEDIA_FORWARD%{A}%{T1}%{F-}"
 		fi
 	fi
-	sleep 2.0
+	if [[ $(cat "$POWERSUPPLY/online") = 1 ]]; then
+        sleep $REFRESH_MEDIA_FAST
+    else
+        sleep $REFRESH_MEDIA_SLOW
+    fi
 done > "$PANEL_FIFO" &
 
 # dump panel into panel_bar and then into lemonbar

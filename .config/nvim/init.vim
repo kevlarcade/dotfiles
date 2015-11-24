@@ -8,7 +8,8 @@ call plug#begin('~/.vim/plugged')
 	Plug 'jiangmiao/auto-pairs'					" spawn matched brackets / quotes
 	Plug 'scrooloose/nerdtree'					" file browser
 	Plug 'jistr/vim-nerdtree-tabs'				" file browser tabs
-	Plug 'klen/python-mode'
+	Plug 'klen/python-mode'                     " python stuff
+    Plug 'scrooloose/syntastic'                 " linting
 call plug#end()
 " }}}
 
@@ -71,6 +72,22 @@ let g:pymode_syntax_indent_errors = g:pymode_syntax_all
 let g:pymode_syntax_space_errors = g:pymode_syntax_all
 " Don't autofold code
 let g:pymode_folding = 0
+" refactoring
+let g:pymode_rope_rename_bind = '<C-c>rr'
+" completion
+let g:pymode_rope_completion = 1
+let g:pymode_rope_completion_on_dot = 1
+let g:pymode_rope_completion_bind = '<C-Space>'
+
+"syntastic
+set statusline+=%#warningmsg#
+set statusline+=%{SyntasticStatuslineFlag()}
+set statusline+=%*
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_auto_loc_list = 1
+let g:syntastic_check_on_open = 1
+let g:syntastic_check_on_wq = 0
+let g:syntastic_sh_checkers = ["shellcheck"]
 " }}}
 
 " {{{ keybinds
@@ -176,7 +193,8 @@ set nostartofline      " when moving thru the lines, the cursor will try to stay
 set wrap " Soft Wrap in all files, while hard wrap can be allow by filetype
 set linebreak " It maintains the whole words when wrapping
 set smartindent
-execute "set colorcolumn=" . join(range(81,335), ',')
+" execute "set colorcolumn=" . join(range(81,335), ',')
+set colorcolumn=81
 
 " Open new split panes to right and bottom, which feels more natural
 set splitbelow

@@ -36,9 +36,9 @@ if [ -d /etc/X11/xinit/xinitrc.d ] ; then
 fi
 
 # enable use of xset to manipulate keyboard LEDs
-xkbcomp $DISPLAY /tmp/xkbconf
+xkbcomp "$DISPLAY" /tmp/xkbconf
 sed 's/\!allowExplicit/allowExplicit/' </tmp/xkbconf >/tmp/xkbconfnew
-xkbcomp /tmp/xkbconfnew $DISPLAY
+xkbcomp /tmp/xkbconfnew "$DISPLAY"
 rm -f '/tmp/xkbconf' '/tmp/xkbconfnew'
 
 # keyboard shortcuts for bspwm
@@ -47,7 +47,7 @@ sxhkd -f 100 &
 # screen temperature adjustment
 # adjust the coordinates for your location.  in case you were thinknig of going to the coordinates listed
 # below, my she-devil of an ex flatmate lives there, and it is probably best to avoid Charlotte altogether.
-redshift -l 35.22:-80.84 &
+# redshift -r -l 35.22:-80.84 &
 
 # desktop wallpaper
 sh ~/.fehbg &

@@ -27,22 +27,14 @@ bspc control --subscribe > "$PANEL_FIFO" &
 
 # clock
 while true; do
-	echo -e "TIME$ICON_CLOCK$(date +"%l:%M %p") "
-	if [[ $(cat "$POWERSUPPLY/online") = 1 ]]; then
-        sleep $REFRESH_CLOCK_FAST
-    else
-        sleep $REFRESH_CLOCK_SLOW
-    fi
+	echo -e "TIME$ICON_CLOCK$(date +"%_H:%M")"
+    sleep $REFRESH_CLOCK
 done > "$PANEL_FIFO" &
 
 # date
 while true; do
-	echo -e "DAY$ICON_DATE$(date +'%a, %b %d')"
-	if [[ $(cat "$POWERSUPPLY/online") = 1 ]]; then
-        sleep $REFRESH_DATE_FAST
-    else
-        sleep $REFRESH_DATE_SLOW
-    fi
+	echo -e "DAY$ICON_DATE$(date +'%a, %b %_d')"
+    sleep $REFRESH_DATE
 done > "$PANEL_FIFO" &
 
 # battery
@@ -50,7 +42,6 @@ while true; do
     BATT_LEVEL=$(acpi -b | grep -o '[[:digit:]]\+%' | sed 's/%//')
     if [[ $(cat "$POWERSUPPLY/online") != 1 ]]; then
         if [[ $BATT_LEVEL -ge 80 ]]; then
-            REFRESH_BATTERY=$REFRESH_BATTERY_SLOW
 	    	BATT_ICON=$ICON_BATTERY_FULL
     	elif [[ $BATT_LEVEL -ge 60 && $BATT_LEVEL -lt 80 ]]; then
 	    	BATT_ICON=$ICON_BATTERY_THREEQUARTERS
@@ -62,11 +53,10 @@ while true; do
 	    	BATT_ICON=$ICON_BATTERY_EMPTY
     	fi
     else
-        REFRESH_BATTERY=$REFRESH_BATTERY_FAST
         BATT_ICON=$ICON_BATTERY_CHARGING
     fi
 	#uncomment next and delete the line after that to see percentage
-	#echo -e $BATT_ICON $BATT_LEVEL%
+	#echo -e $BATT_ICON %{F$COLOR_TEXT_FG} $BATT_LEVEL%%{F-}
 	echo -e BAT$BATT_ICON
 	sleep $REFRESH_BATTERY
 done > "$PANEL_FIFO" &
@@ -75,19 +65,18 @@ done > "$PANEL_FIFO" &
 while true; do
     ALSA_VOLUME=$(amixer get Master | grep 'Mono: Playback' | grep -o '...%' | sed 's/\[//' | sed 's/%//' | sed 's/ //')
     ALSA_STATE=$(amixer get Master | grep 'Mono: Playback' | grep -o '\[on]')
-
     if [[ $ALSA_STATE ]]; then
     	if [[ $ALSA_VOLUME -ge 70 ]]; then
     		VOLUME_ICON=$ICON_VOLUME_HIGH
     	elif [[ $ALSA_VOLUME -gt 0 && $ALSA_VOLUME -lt 70 ]]; then
     		VOLUME_ICON=$ICON_VOLUME_LOW
     	else
-	    	VOLUME_ICON=$ICON_VOMLUME_MUTE
+	    	VOLUME_ICON=$ICON_VOLUME_MUTE
     	fi
-    	# uncomment next and deliete the line after that to see volume percentage
-    	#echo -e V$VOLUME_ICON $ALSA_VOLUME
-    	echo -e VOL$VOLUME_ICON$REFRESH_VOLUME
+    else
+        VOLUME_ICON=$ICON_VOLUME_MUTE
     fi
+    echo -e VOL$VOLUME_ICON
     if [[ $(cat "$POWERSUPPLY/online") = 1 ]]; then
         sleep $REFRESH_VOLUME_FAST
     else
@@ -101,14 +90,10 @@ while true; do
     if [[ -z $UNREADMESSAGES || $UNREADMESSAGES = 0 ]]; then
         WEECHAT_ICON="$ICON_CHAT_NONE "
     else
-        WEECHAT_ICON="$ICON_CHAT_NEW $UNREADMESSAGES"
+        WEECHAT_ICON="$ICON_CHAT_NEW %{F$COLOR_TEXT_FG} $UNREADMESSAGES{F-}"
     fi
     echo -e "MESSAGE$WEECHAT_ICON"
-	if [[ $(cat "$POWERSUPPLY/online") = 1 ]]; then
-        sleep $REFRESH_CHAT_FAST
-    else
-        sleep $REFRESH_CHAT_SLOW
-    fi
+    sleep $REFRESH_CHAT
 done > "$PANEL_FIFO" &
 
 # email
@@ -117,14 +102,10 @@ while true; do
     if [[ -z $NEWEMAILS || $NEWEMAILS = 0 ]]; then
 	    EMAIL_ICON=$ICON_EMAIL_NONE
     else
-        EMAIL_ICON="$ICON_EMAIL_NEW $NEWEMAILS"
+        EMAIL_ICON="$ICON_EMAIL_NEW %{F$COLOR_TEXT_FG} $NEWEMAILS%{F-}"
     fi
     echo -e EMAIL$EMAIL_ICON
-	if [[ $(cat "$POWERSUPPLY/online") = 1 ]]; then
-        sleep $REFRESH_EMAIL_FAST
-    else
-        sleep $REFRESH_EMAIL_SLOW
-    fi
+    sleep $REFRESH_EMAIL
 done > "$PANEL_FIFO" &
 
 # newsbeuter
@@ -133,13 +114,9 @@ while true; do
     if [[ -z $UNREAD_NEWS || $UNREAD_NEWS = 0 ]]; then
 	    echo -e NEWS$ICON_NEWS_NONE
     else
-        echo -e NEWS$ICON_NEWS_NEW $UNREAD_NEWS
+        echo -e NEWS$ICON_NEWS_NEW %{F$COLOR_TEXT_FG} $UNREAD_NEWS%{F-}
     fi
-    	if [[ $(cat "$POWERSUPPLY/online") = 1 ]]; then
-        sleep $REFRESH_NEWS_FAST
-    else
-        sleep $REFRESH_NEWS_SLOW
-    fi
+    sleep $REFRESH_NEWS
 done > "$PANEL_FIFO" &
 
 # wifi
@@ -159,26 +136,22 @@ while true; do
 		WIFI_COLOR=$COLOR_SIGNAL_NONE
 		echo -e "LINK%{F$WIFI_COLOR}$ICON_WIFI_DISCONNECTED%{F-}"
 	fi
-	if [[ $(cat "$POWERSUPPLY/online") = 1 ]]; then
-        sleep $REFRESH_WIFI_FAST
-    else
-        sleep $REFRESH_WIFI_SLOW
-    fi
+    sleep $REFRESH_WIFI
 done > "$PANEL_FIFO" &
 
 # music controls
 while true; do
 	SONG_NAME=$(mpc current)
-	if [[ -z $(mpc current) ]]; then
+	if [[ -z $SONG_NAME ]]; then
 		# no music in playlist, or mpd is not running
-		echo -e "MUSIC%{F$COLOR_INACTIVE_MONITOR_FG}%{T3}%{A:mpc listall | mpc add; mpc shuffle; mpc play:}%{A3:mpd:}$ICON_MEDIA_BACK  $ICON_MEDIA_PLAY  $ICON_MEDIA_FORWARD%{A}%{A}%{T1}%{F-}"
+		echo -e "MUSIC%{F$COLOR_MEDIA_PAUSED}%{T3}%{A:mpc listall | mpc add; mpc shuffle; mpc play:}%{A3:mpd:}$ICON_MEDIA_BACK  $ICON_MEDIA_PLAY  $ICON_MEDIA_FORWARD%{A}%{A}%{T1}%{F-}"
 	else
         if mpc status | grep -q 'paused'; then
 			# music is paused
-			echo -e "MUSIC%{F$COLOR_INACTIVE_MONITOR_FG}%{T3}%{A:mpc prev:}$ICON_MEDIA_BACK %{A}%{A:mpc play:}%{A3:mpc clear:}$SONG_NAME%{A}%{A}%{A:mpc next:} $ICON_MEDIA_FORWARD%{A}%{T1}%{F-}"
+			echo -e "MUSIC%{F$COLOR_MEDIA_PAUSED}%{T3}%{A:mpc prev:}$ICON_MEDIA_BACK %{A}%{A:mpc play:}%{A3:mpc clear:}$SONG_NAME%{A}%{A}%{A:mpc next:} $ICON_MEDIA_FORWARD%{A}%{T1}%{F-}"
 		else
 			# music is playing
-			echo -e "MUSIC%{F$COLOR_FOCUSED_OCCUPIED_FG}%{T3}%{A:mpc prev:}$ICON_MEDIA_BACK %{A}%{A:mpc pause:}%{A3:mpc next:}$SONG_NAME%{A}%{A}%{A:mpc next:} $ICON_MEDIA_FORWARD%{A}%{T1}%{F-}"
+			echo -e "MUSIC%{F$COLOR_MEDIA_PLAYING}%{T3}%{A:mpc prev:}$ICON_MEDIA_BACK %{A}%{A:mpc pause:}%{A3:mpc next:}$SONG_NAME%{A}%{A}%{A:mpc next:} $ICON_MEDIA_FORWARD%{A}%{T1}%{F-}"
 		fi
 	fi
 	if [[ $(cat "$POWERSUPPLY/online") = 1 ]]; then

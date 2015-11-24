@@ -92,6 +92,10 @@ super + button{5}
 # wm independent hotkeys
 #
 
+# mpd hotkeys
+super + shift + {comma, period}
+    mpc {prev,next}
+
 # open file manager in new urxvt window
 super + e
 	urxvtc -e "ranger"
@@ -110,13 +114,13 @@ super + Return
 
 # open dmenu to run other stuff
 super + space
-	dmenu_run -i -h 30 -p ">" -nb "#282828" -nf "#ebdbb2" -sb "#458588" -sf "#ebdbb2" -fn "xft:Source\ Code\ Pro\ Medium:size=13"
+	dmenu_run -i -h 30 -p "execute>" -nb "#282828" -nf "#ebdbb2" -sb "#a89984" -sf "#282828" -fn "xft:Source\ Code\ Pro\ Medium:size=13"
 
 # volume up
 XF86Audio{LowerVolume,RaiseVolume}
-	amixer -q sset Master 3%{-,+}
+	amixer -q set Master 3%{-,+}
 
-# volume down
+# volume mute
 XF86AudioMute
 	amixer -q set Master toggle
 

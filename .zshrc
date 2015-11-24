@@ -26,14 +26,21 @@ promptinit
 prompt elite
 
 # Syntax highlighting
-source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+source /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets pattern)
 
 #-------------------
 # Personnal Aliases
 #-------------------
 
-alias fuck=sudo !!
+alias aimee='mpv --shuffle "https://soundcloud.com/reynolds-ame/likes"'
+
+alias redshift='redshift -l 35.22:-80.84'
+alias nightmode='redshift -r -O 3600 -b .5'
+
+alias porn=' mpv "http://www.pornhub.com/random"'
+
+alias newmusic='find ~/music -name "*.mp3" -mtime -5 | sort'
 
 alias testpl='echo "\ue0b0 \u00b1 \ue0a0 \u27a6 \u2718 \u26a1 \u2699"'
 
@@ -97,13 +104,7 @@ function parse_current_dir {
 # A few utility functions to make it easy and re-usable to draw segmented prompts
 
 CURRENT_BG='NONE'
-
-# Fix odd char on mac
-if [[ `uname` == 'Darwin' ]]; then
-    SEGMENT_SEPARATOR='\ue0b0'
-else
-    SEGMENT_SEPARATOR=''
-fi
+SEGMENT_SEPARATOR=''
 
 # Begin a segment
 # Takes two arguments, background and foreground. Both can be omitted,
@@ -138,7 +139,7 @@ prompt_end() {
 # Context: user@hostname (who am I and where am I)
 prompt_context() {
   if [[ "$USER" != "$DEFAULT_USER" || -n "$SSH_CLIENT" ]]; then
-    prompt_segment black default "%(!.%{%F{yellow}%}.)$USER@%m"
+    prompt_segment 246 235 "%(!.%{%F{yellow}%}.)$USER@%m"
   fi
 }
 
@@ -151,7 +152,7 @@ prompt_git() {
     dirty=$(parse_git_dirty)
     ref=$(git symbolic-ref HEAD 2> /dev/null) || ref="➦ $(git show-ref --head -s --abbrev |head -n1 2> /dev/null)"
     if [[ -n $dirty ]]; then
-      prompt_segment yellow black
+      prompt_segment 172 black
     else
       prompt_segment green black
     fi
@@ -216,7 +217,7 @@ prompt_hg() {
 
 # Dir: current working directory
 prompt_dir() {
-  prompt_segment blue black '%~'
+  prompt_segment 239 248 '%~'
 }
 
 # Virtualenv: current working virtualenv

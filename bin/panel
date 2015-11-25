@@ -2,6 +2,7 @@
 
 . panel_colors
 . panel_config
+. mpv_functions
 
 # check if panel is already running
 if [[ $(pgrep -cx panel) -gt 1 ]]; then
@@ -90,7 +91,7 @@ while true; do
     if [[ -z $UNREADMESSAGES || $UNREADMESSAGES = 0 ]]; then
         WEECHAT_ICON="$ICON_CHAT_NONE "
     else
-        WEECHAT_ICON="$ICON_CHAT_NEW %{F$COLOR_TEXT_FG} $UNREADMESSAGES{F-}"
+        WEECHAT_ICON="$ICON_CHAT_NEW %{F$COLOR_TEXT_FG} $UNREADMESSAGES%{F-}"
     fi
     echo -e "MESSAGE$WEECHAT_ICON"
     sleep $REFRESH_CHAT
@@ -141,20 +142,39 @@ done > "$PANEL_FIFO" &
 
 # music controls
 while true; do
-	SONG_NAME=$(mpc current)
-	if [[ -z $SONG_NAME ]]; then
-		# no music in playlist, or mpd is not running
-		echo -e "MUSIC%{F$COLOR_MEDIA_PAUSED}%{T3}%{A:mpc listall | mpc add; mpc shuffle; mpc play:}%{A3:mpd:}$ICON_MEDIA_BACK  $ICON_MEDIA_PLAY  $ICON_MEDIA_FORWARD%{A}%{A}%{T1}%{F-}"
-	else
-        if mpc status | grep -q 'paused'; then
-			# music is paused
-			echo -e "MUSIC%{F$COLOR_MEDIA_PAUSED}%{T3}%{A:mpc prev:}$ICON_MEDIA_BACK %{A}%{A:mpc play:}%{A3:mpc clear:}$SONG_NAME%{A}%{A}%{A:mpc next:} $ICON_MEDIA_FORWARD%{A}%{T1}%{F-}"
+    MEDIA_TITLE=""
+
+    # check if mpv is running
+    if [[ $(pgrep -cx mpv) -gt 0 ]]; then
+        MEDIA_TITLE=$(mpv_get_title)
+        if mpv_paused | grep -q 'yes'; then
+	    	# music is paused
+    		echo -e "MUSIC%{F$COLOR_MEDIA_PAUSED}%{T3}%{A:mpv_previous:}$ICON_MEDIA_BACK %{A}%{A:mpv_toggle_playback:}%{A3:mpv_exit:}$MEDIA_TITLE%{A}%{A}%{A:mpv_next:} $ICON_MEDIA_FORWARD%{A}%{T1}%{F-}"
 		else
-			# music is playing
-			echo -e "MUSIC%{F$COLOR_MEDIA_PLAYING}%{T3}%{A:mpc prev:}$ICON_MEDIA_BACK %{A}%{A:mpc pause:}%{A3:mpc next:}$SONG_NAME%{A}%{A}%{A:mpc next:} $ICON_MEDIA_FORWARD%{A}%{T1}%{F-}"
-		fi
-	fi
-	if [[ $(cat "$POWERSUPPLY/online") = 1 ]]; then
+	    	# music is playing
+    		echo -e "MUSIC%{F$COLOR_MEDIA_PLAYING}%{T3}%{A:mpv_previous:}$ICON_MEDIA_BACK %{A}%{A:mpv_toggle_playback:}%{A3:mpv_next:}$MEDIA_TITLE%{A}%{A}%{A:mpv_next:} $ICON_MEDIA_FORWARD%{A}%{T1}%{F-}"
+    	fi
+    fi
+
+    # check if mpd is running
+    if [[ $(pgrep -cx mpd) -gt 0 && $(pgrep -cx mpv) = 0 ]]; then
+    	MEDIA_TITLE=$(mpc current)
+    	if [[ -z $MEDIA_TITLE ]]; then
+	    	# no music in playlist
+    		echo -e "MUSIC%{F$COLOR_MEDIA_PAUSED}%{T3}%{A:mpc listall | mpc add; mpc shuffle; mpc play:}%{A3:mpd:}$ICON_MEDIA_BACK  $ICON_MEDIA_PLAY  $ICON_MEDIA_FORWARD%{A}%{A}%{T1}%{F-}"
+    	else
+            if mpc status | grep -q 'paused'; then
+		    	# music is paused
+    			echo -e "MUSIC%{F$COLOR_MEDIA_PAUSED}%{T3}%{A:mpc prev:}$ICON_MEDIA_BACK %{A}%{A:mpc play:}%{A3:mpc clear:}$MEDIA_TITLE%{A}%{A}%{A:mpc next:} $ICON_MEDIA_FORWARD%{A}%{T1}%{F-}"
+    		else
+	    		# music is playing
+    			echo -e "MUSIC%{F$COLOR_MEDIA_PLAYING}%{T3}%{A:mpc prev:}$ICON_MEDIA_BACK %{A}%{A:mpc pause:}%{A3:mpc next:}$MEDIA_TITLE%{A}%{A}%{A:mpc next:} $ICON_MEDIA_FORWARD%{A}%{T1}%{F-}"
+    		fi
+    	fi
+    fi
+
+    # wait for some time
+    if [[ $(cat "$POWERSUPPLY/online") = 1 ]]; then
         sleep $REFRESH_MEDIA_FAST
     else
         sleep $REFRESH_MEDIA_SLOW

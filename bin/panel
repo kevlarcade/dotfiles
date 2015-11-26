@@ -77,7 +77,7 @@ while true; do
     else
         VOLUME_ICON=$ICON_VOLUME_MUTE
     fi
-    echo -e VOL$VOLUME_ICON
+    echo -e "VOL%{A:urxvtc -e "alsamixer":}$VOLUME_ICON%{A}"
     if [[ $(cat "$POWERSUPPLY/online") = 1 ]]; then
         sleep $REFRESH_VOLUME_FAST
     else
@@ -101,11 +101,11 @@ done > "$PANEL_FIFO" &
 while true; do
     NEWEMAILS=$(ls $NEWMAILDIR | wc -l)
     if [[ -z $NEWEMAILS || $NEWEMAILS = 0 ]]; then
-	    EMAIL_ICON=$ICON_EMAIL_NONE
+	    EMAIL_ICON="$ICON_EMAIL_NONE"
     else
         EMAIL_ICON="$ICON_EMAIL_NEW %{F$COLOR_TEXT_FG} $NEWEMAILS%{F-}"
     fi
-    echo -e EMAIL$EMAIL_ICON
+    echo -e "EMAIL%{A:urxvtc -e "mutt":}$EMAIL_ICON%{A}"
     sleep $REFRESH_EMAIL
 done > "$PANEL_FIFO" &
 
@@ -113,10 +113,11 @@ done > "$PANEL_FIFO" &
 while true; do
     UNREAD_NEWS=$(echo $(newsbeuter -x print-unread) | sed 's/[^0-9]*//g')
     if [[ -z $UNREAD_NEWS || $UNREAD_NEWS = 0 ]]; then
-	    echo -e NEWS$ICON_NEWS_NONE
+	    newsline="$ICON_NEWS_NONE"
     else
-        echo -e NEWS$ICON_NEWS_NEW %{F$COLOR_TEXT_FG} $UNREAD_NEWS%{F-}
+        newsline="$ICON_NEWS_NEW %{F$COLOR_TEXT_FG} $UNREAD_NEWS%{F-}"
     fi
+    echo -e "NEWS%{A:urxvtc -e "newsbeuter -r":}$newsline%{A}"
     sleep $REFRESH_NEWS
 done > "$PANEL_FIFO" &
 
@@ -160,12 +161,17 @@ while true; do
     # check if mpd is running
     if [[ $(pgrep -cx mpd) -gt 0 && $(pgrep -cx mpv) = 0 ]]; then
     	MEDIA_TITLE=$(mpc current)
-        if mpc status | grep -q 'paused'; then
-	    	# music is paused
-    		medialine="%{F$COLOR_MEDIA_PAUSED}%{T3}%{A:mpc prev:}$ICON_MEDIA_BACK %{A}%{A:mpc play:}%{A3:mpc clear:}$MEDIA_TITLE%{A}%{A}%{A:mpc next:} $ICON_MEDIA_FORWARD%{A}%{T1}%{F-}"
+    	if [[ -z $MEDIA_TITLE ]]; then
+	    	# no music in playlist
+    		medialine="%{F$COLOR_MEDIA_PAUSED}%{T3}%{A:mpc listall | mpc add; mpc shuffle; mpc play:}%{A3:mpd:}$ICON_MEDIA_BACK  $ICON_MEDIA_PLAY  $ICON_MEDIA_FORWARD%{A}%{A}%{T1}%{F-}"
     	else
-    		# music is playing
-    		medialine="%{F$COLOR_MEDIA_PLAYING}%{T3}%{A:mpc prev:}$ICON_MEDIA_BACK %{A}%{A:mpc pause:}%{A3:mpc next:}$MEDIA_TITLE%{A}%{A}%{A:mpc next:} $ICON_MEDIA_FORWARD%{A}%{T1}%{F-}"
+            if mpc status | grep -q 'paused'; then
+		    	# music is paused
+    			medialine="%{F$COLOR_MEDIA_PAUSED}%{T3}%{A:mpc prev:}$ICON_MEDIA_BACK %{A}%{A:mpc play:}%{A3:mpc clear:}$MEDIA_TITLE%{A}%{A}%{A:mpc next:} $ICON_MEDIA_FORWARD%{A}%{T1}%{F-}"
+    		else
+	    		# music is playing
+    			medialine="%{F$COLOR_MEDIA_PLAYING}%{T3}%{A:mpc prev:}$ICON_MEDIA_BACK %{A}%{A:mpc pause:}%{A3:mpc next:}$MEDIA_TITLE%{A}%{A}%{A:mpc next:} $ICON_MEDIA_FORWARD%{A}%{T1}%{F-}"
+    		fi
     	fi
     fi
 

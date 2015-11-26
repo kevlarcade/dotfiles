@@ -78,11 +78,12 @@ Not all of this is required for the configuration, it's just the list of softwar
 + **paper** _icon theme_  flat and simple icon theme
 
 ### included scripts and tools
++ **aimee** streams some good music off of soundcloud
 + **testpl**  simple alias to check that a powerline patched font is set up and configured correctly
 + **classify**  classification banners using lemonbar
 + **rfetch**  system info tool with a weird octopus
 + **extract**  alias to extract most archives
-+ **fuck**  yeah, you forgot to sudo
++ **newmusic**  lists music added recently
 
 ## notes
 many settings are optomised for power saving, the sleep timers on the panel script should be shortened for use on systems where responsiveness is valued over power consumption.

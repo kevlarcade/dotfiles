@@ -22,12 +22,12 @@ REFRESH_MEDIA_SLOW=2
 REFRESH_MEDIA_FAST=0.5
 
 # Dimensions
-PANEL_HEIGHT=30
+PANEL_HEIGHT=20
 
 # Fonts
-PANEL_FONT="Source Sans Pro Semibold:size=13"
-ICON_FONT="FontAwesome:size=16"
-ICON_FONT2="fontcustom:size=17"
+PANEL_FONT="Source Sans Pro Semibold:size=12"
+ICON_FONT="FontAwesome:size=13"
+ICON_FONT2="fontcustom:size=13"
 
 # Icons
 #ICON_CLOCK='\uf017 '

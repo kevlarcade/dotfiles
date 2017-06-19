@@ -1,2 +1,2 @@
 #!/bin/sh
-feh --bg-tile '/home/artyom/.wallpaper/tweed.png' 
+feh  --bg-fill '/home/oda/.wallpaper/lightgrass.jpg' 

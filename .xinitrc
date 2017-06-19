@@ -5,10 +5,10 @@
 export QT_STYLE_OVERRIDE=GTK+
 
 # set background
-feh --randomize --recursive --bg-fill ~/.wallpaper
+~/.fehbg &
 
 # compositor
-compton --shadow --menu-opacity=0.9 --blur-background --blur-background-frame --inactive-opacity=0.8 --backend glx --glx-no-stencil --shadow-red=1 --shadow-green=1 --shadow-blue=1 --shadow-offset-x=-8 --shadow-offset-y=-8 --daemon &
+compton &
 
 # notification daemon
 dunst &

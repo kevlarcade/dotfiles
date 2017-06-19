@@ -1,4 +1,4 @@
-fortune -a && echo '\n'
+fortune -sa && echo '\n'
 
 #-------------------------------------------------------------
 # system options
@@ -60,7 +60,8 @@ alias libpath='echo -e ${LD_LIBRARY_PATH//:/\\n}'
 
 ### ayy lmao
 alias porn=' mpv "http://www.pornhub.com/random"'
-
+alias qutebrowser='qutebrowser --backend webengine'
+alias chromium='chromium --disk-cache-dir=/tmp/cache'
 #-------------------------------------------------------------
 # zsh options
 #-------------------------------------------------------------
@@ -199,7 +200,7 @@ prompt_hg() {
         prompt_segment red black
         st='±'
       elif `hg st | grep -q "^[MA]"`; then
-        prompt_segment yellow black
+        prompt_segment yellow green
         st='±'
       else
         prompt_segment green black

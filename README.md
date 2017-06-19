@@ -1,4 +1,7 @@
 ![scrot of current desktop](screenshot.png)
+
+# many new changes that the readme does not reflect yet
+
 ## installed software
 Not all of this is required for the configuration, it's just the list of software that I personally use and recommend.
 
@@ -95,4 +98,4 @@ the panel design is evolving fairly rapidly, so updating will probably break you
 3. Gentner, D. Structure mapping: A theoretical framework for analogy. Cognitive Science, 7, 155-170.
 4. Grudin, J. The case against user interface consistency. Communications of the ACM, vol. 32, number 10, 1164-1173, 1989.
 5. Mountford, S.J. Tools and techniques for creative design. In B. Laurel (Ed.), The Art of Human-Computer Interface Design, Addison-Wesley Publishing Co., Inc. 1990.
-6. Rideout, T., & Lundell, J. Hewlett Packard's Usability Engineering Program. In M. E. Wiklund (Ed.), Usability in Practice. AP Professional, 1994. 
+6. Rideout, T., & Lundell, J. Hewlett Packard's Usability Engineering Program. In M. E. Wiklund (Ed.), Usability in Practice. AP Professional, 1994.

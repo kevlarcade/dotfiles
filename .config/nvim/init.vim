@@ -1,7 +1,7 @@
 " {{{ plugins
-call plug#begin('~/.vim/plugged')
+call plug#begin('~/.config/nvim/plugged')
 	Plug 'morhetz/gruvbox'						" theme
-	Plug 'bling/vim-airline'					" status line
+	Plug 'vim-airline/vim-airline'				" status line
 	Plug 'jeffkreeftmeijer/vim-numbertoggle'	" smart relative numbering
 	Plug 'airblade/vim-gitgutter'				" show git diffs
 	Plug 'bronson/vim-trailing-whitespace'		" show trailing spaces
@@ -194,7 +194,7 @@ set wrap " Soft Wrap in all files, while hard wrap can be allow by filetype
 set linebreak " It maintains the whole words when wrapping
 set smartindent
 " execute "set colorcolumn=" . join(range(81,335), ',')
-set colorcolumn=81
+" set colorcolumn=81
 
 " Open new split panes to right and bottom, which feels more natural
 set splitbelow

@@ -1,8 +1,5 @@
 #!/bin/bash
 
-# I use this garbage script to store my dots because
-# I am paranoid of git pushing something with a password
-
 mkdir .config
 
 # scripts
@@ -70,6 +67,8 @@ cp ~/.config/polybar/cmus.sh ./.config/polybar/
 mkdir ./.config/ranger
 cp ~/.config/ranger/rc.conf ./.config/ranger/
 cp ~/.config/ranger/rifle.conf ./.config/ranger/
+mkdir ./.config/ranger/colorschemes
+cp ~/.config/ranger/colorschemes/gruvbox.py ./.config/ranger/colorschemes/
 
 # sxhkd
 mkdir ./.config/sxhkd

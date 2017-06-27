@@ -1,17 +1,29 @@
 fortune -sa && echo '\n'
 
 #-------------------------------------------------------------
-# system options
+# options
 #-------------------------------------------------------------
 
-### make
+# make
 export MAKEFLAGS="$MAKEFLAGS -j$(($(nproc)))"
+
+# colours
+source ~/.config/nvim/plugged/gruvbox/gruvbox_256palette.sh
+
+# man page colours
+export LESS_TERMCAP_mb=$'\e[0;31m'
+export LESS_TERMCAP_md=$'\e[0;34m'
+export LESS_TERMCAP_me=$'\e[0m'
+export LESS_TERMCAP_se=$'\e[0m'
+export LESS_TERMCAP_so=$'\e[0;34;36m'
+export LESS_TERMCAP_ue=$'\e[0m'
+export LESS_TERMCAP_us=$'\e[0;35m'
 
 #-------------------------------------------------------------
 # aliases
 #-------------------------------------------------------------
 
-### extract archives
+# extract archives
 function extract()
 {
     if [ -f $1 ] ; then
@@ -34,7 +46,7 @@ function extract()
     fi
 }
 
-### ls
+# ls
 export COLUMNS  # Remember columns for subprocesses.
 eval "$(dircolors)"
 function ls {
@@ -43,49 +55,52 @@ function ls {
 alias ll='ls -l'
 alias l='ls -l -a'
 
-### powerline test
+# powerline test
 alias testpl='echo "\ue0b0 \u00b1 \ue0a0 \u27a6 \u2718 \u26a1 \u2699"'
 
-### basic utils
+# basic utils
 alias rm='rm -iv'
 alias cp='cp -iv'
 alias mv='mv -iv'
 
-### prevents accidentally clobbering files
+# prevents accidentally clobbering files
 alias mkdir='mkdir -p'
 
-### pretty-print of some PATH variables
+# pretty-print of some PATH variables
 alias path='echo -e ${PATH//:/\\n}'
 alias libpath='echo -e ${LD_LIBRARY_PATH//:/\\n}'
 
-### ayy lmao
+# ayy lmao
 alias porn=' mpv "http://www.pornhub.com/random"'
 alias qutebrowser='qutebrowser --backend webengine'
 alias chromium='chromium --disk-cache-dir=/tmp/cache'
+alias vi='nvim'
+alias vim='nvim'
+
 #-------------------------------------------------------------
 # zsh options
 #-------------------------------------------------------------
 
-### vim mode
+# vim mode
 bindkey -v
 
-### syntax highlighting
+# syntax highlighting
 source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets pattern)
 
-### completions
+# completions
 autoload -Uz compinit && compinit
 compinit
 zstyle ':completion:*' menu select
 setopt COMPLETE_ALIASES
 
-### history
+# history
 HISTFILE=~/.histfile
 HISTSIZE=1000
 SAVEHIST=1000
 setopt HIST_IGNORE_DUPS
 
-### prompt
+# prompt
 autoload -Uz promptinit && promptinit
 prompt elite
 function parse_git_dirty {
@@ -128,9 +143,8 @@ prompt_end() {
   CURRENT_BG=''
 }
 
-### Prompt components
+# Prompt components
 # Each component will draw itself, and hide itself if no information needs to be shown
-
 # Context: user@hostname (who am I and where am I)
 prompt_context() {
   if [[ "$USER" != "$DEFAULT_USER" || -n "$SSH_CLIENT" ]]; then

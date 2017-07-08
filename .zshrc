@@ -1,5 +1,3 @@
-fortune -sa && echo '\n'
-
 #-------------------------------------------------------------
 # options
 #-------------------------------------------------------------
@@ -74,9 +72,19 @@ alias libpath='echo -e ${LD_LIBRARY_PATH//:/\\n}'
 alias porn=' mpv "http://www.pornhub.com/random"'
 alias qutebrowser='qutebrowser --backend webengine'
 alias chromium='chromium --disk-cache-dir=/tmp/cache'
-alias vi='nvim'
-alias vim='nvim'
 
+alias vi='nvim'; alias vim='nvim'
+alias vimdiff='nvim -d'
+
+alias gc='git commit -am'
+alias gl='git log --graph --oneline --decorate --all'
+alias gs='git status -sb'
+# web services
+alias weather='curl -s wttr.in/~白井市 | head -7'
+alias weatherforecast='curl -s wttr.in/~白井市 | head -37 | tail -30'
+qrcode() {
+    echo $@ | curl -F-=\<- qrenco.de
+}
 #-------------------------------------------------------------
 # zsh options
 #-------------------------------------------------------------
@@ -90,8 +98,16 @@ ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets pattern)
 
 # completions
 autoload -Uz compinit && compinit
-compinit
 zstyle ':completion:*' menu select
+zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}'
+# fuzzy completion
+zstyle ':completion:*' matcher-list '' \
+  'm:{a-z\-}={A-Z\_}' \
+  'r:[^[:alpha:]]||[[:alpha:]]=** r:|=* m:{a-z\-}={A-Z\_}' \
+  'r:[[:ascii:]]||[[:ascii:]]=** r:|=* m:{a-z\-}={A-Z\_}'
+zstyle ':completion:*:functions' ignored-patterns '_*'
+zstyle ':completion:*' format $'\n%F{green}%d%f'
+zstyle ':completion:*' group-name ''
 setopt COMPLETE_ALIASES
 
 # history

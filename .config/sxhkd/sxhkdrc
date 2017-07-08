@@ -45,7 +45,7 @@ super + alt + space
 super + bracket{left,right}
     cmus-remote --{prev,next}
 super + backslash
-    cmus-notify -u
+    cmus-remote -u
 
 #
 # bspwm hotkeys

@@ -1,6 +1,6 @@
 #!/bin/sh
+clear
 ## INFO
-
 # user is already defined
 HOST="$(hostname)"
 OS="Arch Linux"

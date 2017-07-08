@@ -8,8 +8,8 @@ call plug#begin('~/.config/nvim/plugged')
 	Plug 'jiangmiao/auto-pairs'					" spawn matched brackets / quotes
 	Plug 'scrooloose/nerdtree'					" file browser
 	Plug 'jistr/vim-nerdtree-tabs'				" file browser tabs
-	Plug 'klen/python-mode'                     " python stuff
-    Plug 'scrooloose/syntastic'                 " linting
+"	Plug 'klen/python-mode'                     " python stuff
+"    Plug 'scrooloose/syntastic'                 " linting
 call plug#end()
 " }}}
 

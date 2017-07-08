@@ -7,7 +7,7 @@ export QT_STYLE_OVERRIDE=GTK+
 # set background
 ~/.fehbg &
 
-# compositor
+# compositors are blot
 compton &
 
 # notification daemon

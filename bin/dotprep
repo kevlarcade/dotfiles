@@ -74,6 +74,9 @@ cp ~/.config/ranger/colorschemes/gruvbox.py ./.config/ranger/colorschemes/
 mkdir ./.config/sxhkd
 cp ~/.config/sxhkd/sxhkdrc ./.config/sxhkd/
 
+# tmux
+cp ~/.tmux.conf ./
+
 # wallpaper
 mkdir .wallpaper
 cp ~/.wallpaper/lightgrass.jpg ./.wallpaper/

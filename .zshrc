@@ -1,3 +1,5 @@
+echo "[3m$(fortune -sa)\n"
+
 #-------------------------------------------------------------
 # options
 #-------------------------------------------------------------
@@ -6,7 +8,7 @@
 export MAKEFLAGS="$MAKEFLAGS -j$(($(nproc)))"
 
 # colours
-source ~/.config/nvim/plugged/gruvbox/gruvbox_256palette.sh
+source /home/oda/.config/nvim/plugged/gruvbox/gruvbox_256palette.sh
 
 # man page colours
 export LESS_TERMCAP_mb=$'\e[0;31m'
@@ -72,13 +74,17 @@ alias libpath='echo -e ${LD_LIBRARY_PATH//:/\\n}'
 alias porn=' mpv "http://www.pornhub.com/random"'
 alias qutebrowser='qutebrowser --backend webengine'
 alias chromium='chromium --disk-cache-dir=/tmp/cache'
+alias cal='khal interactive'
 
+# vim
 alias vi='nvim'; alias vim='nvim'
 alias vimdiff='nvim -d'
 
+# git
 alias gc='git commit -am'
 alias gl='git log --graph --oneline --decorate --all'
 alias gs='git status -sb'
+
 # web services
 alias weather='curl -s wttr.in/~白井市 | head -7'
 alias weatherforecast='curl -s wttr.in/~白井市 | head -37 | tail -30'

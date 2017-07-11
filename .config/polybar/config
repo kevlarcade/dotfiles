@@ -113,7 +113,7 @@ ramp-3-foreground = ${colors.green}
 type = internal/network
 interface = wlp0s29u1u2
 interval = 1
-ping-interval = 1
+ping-interval = 3
 
 format-connected = <ramp-signal> <label-connected>
 format-packetloss = <animation-packetloss> <label-connected>

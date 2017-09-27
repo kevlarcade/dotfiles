@@ -12,6 +12,7 @@ auto_view text/html
 alternative_order text/plain text/enriched text/html
 
 # Basic Options --------------------------------------
+set realname = "Brian Clemens"
 set wait_key = no
 # set mbox_type = Maildir  # mailbox type
 set timeout = 3          # idle time before scanning
@@ -63,14 +64,17 @@ set sendmail = "/usr/bin/msmtp"
 
 # Default inbox.
 set virtual_spoolfile=yes
+set nm_default_uri = "notmuch:///home/oda/mail"
 
 # Mailboxes
 virtual-mailboxes "inbox" "notmuch://?query=tag:inbox"
 virtual-mailboxes "archive" "notmuch://?query=tag:archive"
 virtual-mailboxes "sent" "notmuch://?query=tag:sent"
+virtual-mailboxes "trash" "notmuch://?query=tag:trash"
 
 # Index Key Bindings ---------------------------------
 macro index \\\\ "<vfolder-from-query>" "Search mailbox"
+bind index,pager \` modify-labels
 macro index A "<modify-labels>+archive -unread -inbox\n" "Archive message"
 macro index I "<modify-labels>-archive +inbox\n" "Unarchive message"
 macro index c "<change-vfolder>?" "Change to vfolder overview"
@@ -86,26 +90,20 @@ bind index <space>  collapse-thread
 macro index \Cr "T~U<enter><tag-prefix><clear-flag>N<untag-pattern>.<enter>" "mark all messages as read"
 
 # Sync email
-macro index O "<shell-escape>offlineimap<enter>"           "run offlineimap to sync all mail"
-macro index o "<shell-escape>offlineimap -qf INBOX<enter>" "run offlineimap to sync inbox"
+macro index O "<shell-escape>offlineimap<enter>"           "run offlineimap full sync"
+macro index o "<shell-escape>offlineimap -qf INBOX<enter>" "run offlineimap quick sync"
+
+# tag-transforms "inbox"   "i"   \
+#                "unread"  "u"   \
+#                "replied" "↻ "  \
+#                "sent"    "➥ "  \
+#                "todo"    "T"   \
+#                "deleted" "DEL" \
+#                "invites" "CAL"
 
 # custom body highlights -----------------------------------------------
 # highlight my name and other personally relevant strings
-#color body          color136        default        "(ethan|schoonover)"
-# custom index highlights ----------------------------------------------
-# messages which mention my name in the body
-#color index         color136        default        "~b \"phil(_g|\!| gregory| gold)|pgregory\" !~N !~T !~F !~p !~P"
-#color index         J_cream         color230        "~b \"phil(_g|\!| gregory| gold)|pgregory\" ~N !~T !~F !~p !~P"
-#color index         color136        color37         "~b \"phil(_g|\!| gregory| gold)|pgregory\" ~T !~F !~p !~P"
-#color index         color136        J_magent        "~b \"phil(_g|\!| gregory| gold)|pgregory\" ~F !~p !~P"
-## messages which are in reference to my mails
-#color index         J_magent        default        "~x \"(mithrandir|aragorn)\\.aperiodic\\.net|thorin\\.hillmgt\\.com\" !~N !~T !~F !~p !~P"
-#color index         J_magent        color230        "~x \"(mithrandir|aragorn)\\.aperiodic\\.net|thorin\\.hillmgt\\.com\" ~N !~T !~F !~p !~P"
-#color index         J_magent        color37         "~x \"(mithrandir|aragorn)\\.aperiodic\\.net|thorin\\.hillmgt\\.com\" ~T !~F !~p !~P"
-#color index         J_magent        color160        "~x \"(mithrandir|aragorn)\\.aperiodic\\.net|thorin\\.hillmgt\\.com\" ~F !~p !~P"
-
-# for background in 16 color terminal, valid background colors include:
-# base03, bg, black, any of the non brights
+color body          color136        default        "(brian|clemens)"
 
 # basic colors ---------------------------------------------------------
 color normal        default         default
@@ -155,8 +153,6 @@ color index         color88         default        "~D"                        #
 color index         color246        default        "~v~(!~N)"                  # collapsed thread with no unread
 color index         color229        default        "~v~(~N)"                   # collapsed thread with some unread
 color index         color250        default        "~N~v~(~N)"                 # collapsed thread with unread parent
-# statusbg used to indicated flagged when foreground color shows other status
-# for collapsed thread
 color index         color166        default         "~v~(~F)!~N"                # collapsed thread with flagged, no unread
 color index         color166        default         "~v~(~F~N)"                 # collapsed thread with some unread & flagged
 color index         color166        default         "~N~v~(~F~N)"               # collapsed thread with unread parent & flagged
@@ -166,7 +162,7 @@ color index         color88         default         "~v~(~D)"                   
 #color index         color136        default        "~(~N)"                    # messages in threads with some unread
 #color index         color64         default        "~S"                       # superseded messages
 #color index         color160        default        "~T"                       # tagged messages
-#color index         color166        color160        "~="                       # duplicated messages
+#color index         color166        color160       "~="                       # duplicated messages
 
 # message headers ------------------------------------------------------
 
@@ -205,12 +201,13 @@ color body          color167        color160        "^gpg: BAD signature from.*"
 mono  body          bold                            "^gpg: Good signature"
 mono  body          bold                            "^gpg: BAD signature from.*"
 
-# yes, an insance URL regex
-color body          color4          default        "([a-z][a-z0-9+-]*://(((([a-z0-9_.!~*'();:&=+$,-]|%[0-9a-f][0-9a-f])*@)?((([a-z0-9]([a-z0-9-]*[a-z0-9])?)\\.)*([a-z]([a-z0-9-]*[a-z0-9])?)\\.?|[0-9]+\\.[0-9]+\\.[0-9]+\\.[0-9]+)(:[0-9]+)?)|([a-z0-9_.!~*'()$,;:@&=+-]|%[0-9a-f][0-9a-f])+)(/([a-z0-9_.!~*'():@&=+$,-]|%[0-9a-f][0-9a-f])*(;([a-z0-9_.!~*'():@&=+$,-]|%[0-9a-f][0-9a-f])*)*(/([a-z0-9_.!~*'():@&=+$,-]|%[0-9a-f][0-9a-f])*(;([a-z0-9_.!~*'():@&=+$,-]|%[0-9a-f][0-9a-f])*)*)*)?(\\?([a-z0-9_.!~*'();/?:@&=+$,-]|%[0-9a-f][0-9a-f])*)?(#([a-z0-9_.!~*'();/?:@&=+$,-]|%[0-9a-f][0-9a-f])*)?|(www|ftp)\\.(([a-z0-9]([a-z0-9-]*[a-z0-9])?)\\.)*([a-z]([a-z0-9-]*[a-z0-9])?)\\.?(:[0-9]+)?(/([-a-z0-9_.!~*'():@&=+$,]|%[0-9a-f][0-9a-f])*(;([-a-z0-9_.!~*'():@&=+$,]|%[0-9a-f][0-9a-f])*)*(/([-a-z0-9_.!~*'():@&=+$,]|%[0-9a-f][0-9a-f])*(;([-a-z0-9_.!~*'():@&=+$,]|%[0-9a-f][0-9a-f])*)*)*)?(\\?([-a-z0-9_.!~*'();/?:@&=+$,]|%[0-9a-f][0-9a-f])*)?(#([-a-z0-9_.!~*'();/?:@&=+$,]|%[0-9a-f][0-9a-f])*)?)[^].,:;!)? \t\r\n<>\"]"
+# URL regex
+# color body          color4          default        "([a-z][a-z0-9+-]*://(((([a-z0-9_.!~*'();:&=+$,-]|%[0-9a-f][0-9a-f])*@)?((([a-z0-9]([a-z0-9-]*[a-z0-9])?)\\.)*([a-z]([a-z0-9-]*[a-z0-9])?)\\.?|[0-9]+\\.[0-9]+\\.[0-9]+\\.[0-9]+)(:[0-9]+)?)|([a-z0-9_.!~*'()$,;:@&=+-]|%[0-9a-f][0-9a-f])+)(/([a-z0-9_.!~*'():@&=+$,-]|%[0-9a-f][0-9a-f])*(;([a-z0-9_.!~*'():@&=+$,-]|%[0-9a-f][0-9a-f])*)*(/([a-z0-9_.!~*'():@&=+$,-]|%[0-9a-f][0-9a-f])*(;([a-z0-9_.!~*'():@&=+$,-]|%[0-9a-f][0-9a-f])*)*)*)?(\\?([a-z0-9_.!~*'();/?:@&=+$,-]|%[0-9a-f][0-9a-f])*)?(#([a-z0-9_.!~*'();/?:@&=+$,-]|%[0-9a-f][0-9a-f])*)?|(www|ftp)\\.(([a-z0-9]([a-z0-9-]*[a-z0-9])?)\\.)*([a-z]([a-z0-9-]*[a-z0-9])?)\\.?(:[0-9]+)?(/([-a-z0-9_.!~*'():@&=+$,]|%[0-9a-f][0-9a-f])*(;([-a-z0-9_.!~*'():@&=+$,]|%[0-9a-f][0-9a-f])*)*(/([-a-z0-9_.!~*'():@&=+$,]|%[0-9a-f][0-9a-f])*(;([-a-z0-9_.!~*'():@&=+$,]|%[0-9a-f][0-9a-f])*)*)*)?(\\?([-a-z0-9_.!~*'();/?:@&=+$,]|%[0-9a-f][0-9a-f])*)?(#([-a-z0-9_.!~*'();/?:@&=+$,]|%[0-9a-f][0-9a-f])*)?)[^].,:;!)? \t\r\n<>\"]"
+
 # email regex
 #color body          J_magent        default        "((@(([0-9a-z-]+\\.)*[0-9a-z-]+\\.?|#[0-9]+|\\[[0-9]?[0-9]?[0-9]\\.[0-9]?[0-9]?[0-9]\\.[0-9]?[0-9]?[0-9]\\.[0-9]?[0-9]?[0-9]\\]),)*@(([0-9a-z-]+\\.)*[0-9a-z-]+\\.?|#[0-9]+|\\[[0-9]?[0-9]?[0-9]\\.[0-9]?[0-9]?[0-9]\\.[0-9]?[0-9]?[0-9]\\.[0-9]?[0-9]?[0-9]\\]):)?[0-9a-z_.+%$-]+@(([0-9a-z-]+\\.)*[0-9a-z-]+\\.?|#[0-9]+|\\[[0-2]?[0-9]?[0-9]\\.[0-2]?[0-9]?[0-9]\\.[0-2]?[0-9]?[0-9]\\.[0-2]?[0-9]?[0-9]\\])"
 
-# Various smilies and the like
+# emoticons regex
 #color body          color230        default        "<[Gg]>"                            # <g>
 #color body          color230        default        "<[Bb][Gg]>"                        # <bg>
 #color body          color136        default        " [;:]-*[})>{(<|]"                  # :-) etc...

@@ -1,31 +1,37 @@
-echo "[3m$(fortune -sa)\n"
+echo "[3m$(fortune -sa)\n"    # display a random short quote at start
 
-#-------------------------------------------------------------
-# options
-#-------------------------------------------------------------
-
-# make
-export MAKEFLAGS="$MAKEFLAGS -j$(($(nproc)))"
-
-# colours
+# colors
 source /home/oda/.config/nvim/plugged/gruvbox/gruvbox_256palette.sh
 
-# man page colours
-export LESS_TERMCAP_mb=$'\e[0;31m'
-export LESS_TERMCAP_md=$'\e[0;34m'
-export LESS_TERMCAP_me=$'\e[0m'
-export LESS_TERMCAP_se=$'\e[0m'
-export LESS_TERMCAP_so=$'\e[0;34;36m'
-export LESS_TERMCAP_ue=$'\e[0m'
-export LESS_TERMCAP_us=$'\e[0;35m'
+# {{{ OPTIONS
+export COLUMNS      # remember columns for subprocesses
 
-#-------------------------------------------------------------
-# aliases
-#-------------------------------------------------------------
+export LESS_TERMCAP_mb=$'\e[0;31m'      # less start blink escape sequence
+export LESS_TERMCAP_md=$'\e[0;34m'      # less start bold escape sequence
+export LESS_TERMCAP_me=$'\e[0m'         # less end bold, blink, and underline
+export LESS_TERMCAP_se=$'\e[0m'         # less stop standout escape sequence
+export LESS_TERMCAP_so=$'\e[0;34;36m'   # less start standout escape sequence
+export LESS_TERMCAP_ue=$'\e[0m'         # less stop underline escape sequence
+export LESS_TERMCAP_us=$'\e[0;35m'      # less start underline escape sequence
 
-# extract archives
-function extract()
-{
+export MAKEFLAGS="$MAKEFLAGS -j$(($(nproc)))"   # use all vcpus when compiling
+# }}}
+
+# {{{ ALIASES
+
+#   {{{ FILE MANAGEMENT
+alias cp='cp -iv'               # interactive and verbose cp
+alias l='ls -l -a'              # list all files
+alias ll='ls -l'                # list files
+alias mkdir='mkdir -p'          # do not clobber files when making paths
+alias mv='mv -iv'               # interactive and verbose mv
+alias rm='rm -iv'               # interactive and verbose rm
+
+function ls {
+    command ls -F -h --color=always -v --author --time-style=long-iso -C "$@" | less -R -X -F
+}
+
+function extract() {
     if [ -f $1 ] ; then
         case $1 in
             *.tar.bz2)   tar xvjf $1     ;;
@@ -45,64 +51,54 @@ function extract()
         echo "'$1' is not a valid file!"
     fi
 }
+#   }}}
 
-# ls
-export COLUMNS  # Remember columns for subprocesses.
-eval "$(dircolors)"
-function ls {
-	command ls -F -h --color=always -v --author --time-style=long-iso -C "$@" | less -R -X -F
-}
-alias ll='ls -l'
-alias l='ls -l -a'
+#   {{{ SHELL MANAGEMENT
+alias path='echo -e ${PATH//:/\\n}'                 # show executable paths
+alias libpath='echo -e ${LD_LIBRARY_PATH//:/\\n}'   # show library paths
+alias testpowerline='echo "\ue0b0 \u00b1 \ue0a0 \u27a6 \u2718 \u26a1 \u2699"'
+#   }}}
 
-# powerline test
-alias testpl='echo "\ue0b0 \u00b1 \ue0a0 \u27a6 \u2718 \u26a1 \u2699"'
-
-# basic utils
-alias rm='rm -iv'
-alias cp='cp -iv'
-alias mv='mv -iv'
-
-# prevents accidentally clobbering files
-alias mkdir='mkdir -p'
-
-# pretty-print of some PATH variables
-alias path='echo -e ${PATH//:/\\n}'
-alias libpath='echo -e ${LD_LIBRARY_PATH//:/\\n}'
-
-# ayy lmao
-alias porn=' mpv "http://www.pornhub.com/random"'
-alias qutebrowser='qutebrowser --backend webengine'
-alias chromium='chromium --disk-cache-dir=/tmp/cache'
-alias cal='khal interactive'
-
-# vim
-alias vi='nvim'; alias vim='nvim'
-alias vimdiff='nvim -d'
-
-# git
-alias gc='git commit -am'
-alias gl='git log --graph --oneline --decorate --all'
-alias gs='git status -sb'
-
-# web services
-alias weather='curl -s wttr.in/~白井市 | head -7'
+#   {{{ WEB SERVICES
+cheatsheet() { curl cheat.sh/$1; }                      # get command cheatsheet
+qrcode() { echo $@ | curl -F-=\<- qrenco.de; }          # print qrcode
+alias porn=' mpv "http://www.pornhub.com/random"'       # ayy lmao
+alias weather='curl -s wttr.in/~白井市 | head -7'       # print weather
 alias weatherforecast='curl -s wttr.in/~白井市 | head -37 | tail -30'
-qrcode() {
-    echo $@ | curl -F-=\<- qrenco.de
-}
-#-------------------------------------------------------------
-# zsh options
-#-------------------------------------------------------------
+#   }}}
 
-# vim mode
-bindkey -v
+alias ap='sudo create_ap --config ~/.config/create_ap.conf' # spawn wifi spot
+alias bm='bmon -p wlp0s29u1u2,wlp2s0,ap0 -o "curses:fgchar=S;bgchar=.;nchar=N;uchar=?;details"'
+alias kal='khal interactive'                            # show calendar
+alias chromium='chromium --disk-cache-dir=/tmp/cache'   # keep cache in RAM
+alias ip='ip -c'                                        # colored ip
+
+alias gc='git commit -am'                               # git commit with message
+alias gl='git log --graph --oneline --decorate --all'   # graph git log
+alias gs='git status -sb'                               # simplify git status
+
+alias less='less -i'                                    # case insensitive search
+
+alias qutebrowser='qutebrowser --backend webengine'     # webengine in qutebrowser
+
+alias 死んでください='systemctl poweroff'   # great for shitposting
+
+alias vi='nvim'; alias vim='nvim'       # use nvim where vi or vim is called
+alias vimdiff='nvim -d'                 # use nvim when diffing
+# }}}
+
+# {{{ ZSH OPTIONS
+bindkey -v  # VIM mode
+
+# search command history with up and down keys
+bindkey "^[[A" history-beginning-search-backward
+bindkey "^[[B" history-beginning-search-forward
 
 # syntax highlighting
 source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets pattern)
 
-# completions
+# autocompletion
 autoload -Uz compinit && compinit
 zstyle ':completion:*' menu select
 zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}'
@@ -114,15 +110,15 @@ zstyle ':completion:*' matcher-list '' \
 zstyle ':completion:*:functions' ignored-patterns '_*'
 zstyle ':completion:*' format $'\n%F{green}%d%f'
 zstyle ':completion:*' group-name ''
-setopt COMPLETE_ALIASES
+setopt COMPLETE_ALIASES         # autocomplete aliases
 
-# history
-HISTFILE=~/.histfile
-HISTSIZE=1000
-SAVEHIST=1000
-setopt HIST_IGNORE_DUPS
+HISTFILE=~/.local/histfile      # location of command history file
+HISTSIZE=1000                   # hist file max lines
+SAVEHIST=1000                   # max amount of history to keep
+setopt HIST_IGNORE_DUPS         # only keep most recent usage of a command
+# }}}
 
-# prompt
+# {{{ PROMPT
 autoload -Uz promptinit && promptinit
 prompt elite
 function parse_git_dirty {
@@ -288,3 +284,4 @@ build_prompt() {
 PROMPT='%{%f%b%k%}$(build_prompt) '
 
 zstyle ':completion:*' menu select
+# }}}

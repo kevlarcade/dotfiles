@@ -1,2 +1,4 @@
-tee /sys/class/leds/input0::capslock/trigger <<<phy1rx
+tee /sys/class/leds/input4::capslock/trigger <<<phy1rx
 tee /sys/class/leds/ath9k_htc-phy1/trigger <<<phy1rx
+tee /sys/class/leds/input4::capslock/trigger <<<phy2rx
+tee /sys/class/leds/ath9k_htc-phy2/trigger <<<phy2rx

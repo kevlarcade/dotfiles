@@ -13,7 +13,7 @@ alternative_order text/plain text/enriched text/html
 
 # Basic Options --------------------------------------
 set wait_key = no
-set mbox_type = Maildir  # mailbox type
+# set mbox_type = Maildir  # mailbox type
 set timeout = 3          # idle time before scanning
 set mail_check = 0       # minimum time between scans
 set delete               # don't ask, just do
@@ -26,15 +26,17 @@ set thorough_search      # strip headers and eval mimes before searching
 set mail_check_stats     # stats for counts
 
 # Sidebar Patch --------------------------------------
-set sidebar_visible = yes
+set sidebar_visible = no
 set sidebar_short_path
 set sidebar_delim_chars="/"
 set sidebar_format = "%B%?F? [%F]?%* %?N?%N/?%S"
 set sidebar_width   = 24
 color sidebar_new color221 color233
-bind index,pager <down>   sidebar-next
-bind index,pager <up>     sidebar-prev
-bind index,pager <right>  sidebar-open
+
+bind index,pager H  sidebar-toggle-visible
+bind index,pager J  sidebar-next
+bind index,pager K  sidebar-prev
+bind index,pager L  sidebar-open
 
 # Status Bar -----------------------------------------
 set status_chars  = " *%A"
@@ -57,23 +59,23 @@ hdr_order from: to: cc: date: subject:  # and in this order
 
 # Account Settings -----------------------------------
 
+set sendmail = "/usr/bin/msmtp"
+
 # Default inbox.
-set spoolfile = "+brian-teknik.io/INBOX"
+set virtual_spoolfile=yes
 
-# Mailboxes to show in the sidebar.
-mailboxes +brian-teknik.io/INBOX \
-          +brian-teknik.io/Archive \
-          +brian-teknik.io/Drafts \
-          +brian-teknik.io/Sent \
-          +brian-teknik.io/SPAM \
-          +brian-teknik.io/Trash \
-
-# Other special folders.
-set mbox      = "+brian-teknik.io/Archive"
-set postponed = "+brian-teknik.io/Drafts"
+# Mailboxes
+virtual-mailboxes "inbox" "notmuch://?query=tag:inbox"
+virtual-mailboxes "archive" "notmuch://?query=tag:archive"
+virtual-mailboxes "sent" "notmuch://?query=tag:sent"
 
 # Index Key Bindings ---------------------------------
-# bind index gg       first-entry
+macro index \\\\ "<vfolder-from-query>" "Search mailbox"
+macro index A "<modify-labels>+archive -unread -inbox\n" "Archive message"
+macro index I "<modify-labels>-archive +inbox\n" "Unarchive message"
+macro index c "<change-vfolder>?" "Change to vfolder overview"
+
+#bind index gg       first-entry
 bind index G        last-entry
 
 bind index R        group-reply
@@ -86,10 +88,6 @@ macro index \Cr "T~U<enter><tag-prefix><clear-flag>N<untag-pattern>.<enter>" "ma
 # Sync email
 macro index O "<shell-escape>offlineimap<enter>"           "run offlineimap to sync all mail"
 macro index o "<shell-escape>offlineimap -qf INBOX<enter>" "run offlineimap to sync inbox"
-
-# Saner copy/move dialogs
-macro index C "<copy-message>?<toggle-mailboxes>" "copy a message to a mailbox"
-macro index M "<save-message>?<toggle-mailboxes>" "move a message to a mailbox"
 
 # custom body highlights -----------------------------------------------
 # highlight my name and other personally relevant strings

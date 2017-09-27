@@ -20,7 +20,7 @@ height = 28
 offset-x = 0
 offset-y = 0
 radius-top = 0
-radius-bottom = 4
+radius-bottom = 0
 
 fixed-center = true
 
@@ -39,7 +39,7 @@ font-2 = IPAGothic:pixelsize=15;3
 
 modules-left = bspwm
 modules-center = date
-modules-right = cmus wlan temperature xbacklight volume      battery
+modules-right = cmus wlan temperature xbacklight volume battery
 
 wm-restack = bspwm
 
@@ -85,6 +85,9 @@ label-sticky-foreground = ${colors.foreground-alt}
 label-private = "  "
 label-private-foreground = ${colors.foreground-alt}
 
+[module/xwindow]
+type = internal/xwindow
+
 [module/weather]
 type = custom/script
 interval = 1800
@@ -112,8 +115,8 @@ ramp-3-foreground = ${colors.green}
 [module/wlan]
 type = internal/network
 interface = wlp0s29u1u2
-interval = 1
-ping-interval = 3
+interval = 6
+ping-interval = 6
 
 format-connected = <ramp-signal> <label-connected>
 format-packetloss = <animation-packetloss> <label-connected>
@@ -146,7 +149,7 @@ date-alt = " %A, %e %B"
 
 time = %H:%M
 
-format-prefix = 
+# format-prefix = 
 format-prefix-foreground = ${colors.aqua}
 
 label = %date% %time%
@@ -232,6 +235,14 @@ format-prefix = " "
 format-prefix-foreground = ${colors.purple}
 click-left = cmus-remote --pause
 click-right = cmus-remote --stop
+
+;[module/reddit]
+;type = custom/script
+;interval = 600
+;format = <label>
+;exec = ~/.config/polybar/reddit.sh
+;exec-if = "ping -q -w 2 -c 1 8.8.8.8 > /dev/null"
+;click-left = xdg-open https://reddit.com/message/unread
 
 [settings]
 screenchange-reload = true

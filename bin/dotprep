@@ -3,95 +3,95 @@
 mkdir .config
 
 # scripts
-cp -r ~/bin ./
+cp -rf -r ~/bin ./
 
 # bspwm
 mkdir ./.config/bspwm
-cp ~/.config/bspwm/bspwmrc ./.config/bspwm/
+cp -rf ~/.config/bspwm/bspwmrc ./.config/bspwm/
 
 # cmus
 mkdir ./.config/cmus
-cp ~/.config/cmus/rc ./.config/cmus/
-cp ~/.config/cmus/gruvbox.theme ./.config/cmus/
+cp -rf ~/.config/cmus/rc ./.config/cmus/
+cp -rf ~/.config/cmus/gruvbox.theme ./.config/cmus/
 
 # compton
-cp ~/.config/compton.conf ./.config/
+cp -rf ~/.config/compton.conf ./.config/
 
 # dunst
 mkdir ./.config/dunst
-cp ~/.config/dunst/dunstrc ./.config/dunst/
+cp -rf ~/.config/dunst/dunstrc ./.config/dunst/
 
 # feh
-cp ~/.fehbg ./
+cp -rf ~/.fehbg ./
 
 # gtk 2.0
-cp ~/.gtkrc-2.0 ./
+cp -rf ~/.gtkrc-2.0 ./
 
 # gtk 3.0
 mkdir ./.config/gtk-3.0
-cp ~/.config/gtk-3.0/settings.ini ./.config/gtk-3.0/
+cp -rf ~/.config/gtk-3.0/settings.ini ./.config/gtk-3.0/
 
 # htop
 mkdir ./.config/htop
-cp ~/.config/htop/htoprc ./.config/htop/
+cp -rf ~/.config/htop/htoprc ./.config/htop/
 
 # mpv
 mkdir ./.config/mpv
-cp ~/.config/mpv/input.conf ./.config/mpv/
-cp ~/.config/mpv/mpv.conf ./.config/mpv/
+cp -rf ~/.config/mpv/input.conf ./.config/mpv/
+cp -rf ~/.config/mpv/mpv.conf ./.config/mpv/
 
 # mutt
 mkdir .mutt
-cp ~/.mutt/muttrc ./.mutt/
-cp ~/.mutt/mailcap ./.mutt/
+cp -rf ~/.mutt/muttrc ./.mutt/
+cp -rf ~/.mutt/mailcap ./.mutt/
 
 # neofetch
 mkdir ./.config/neofetch
-cp ~/.config/neofetch/config ./.config/neofetch/
+cp -rf ~/.config/neofetch/config ./.config/neofetch/
 
 # neovim
 mkdir ./.config/nvim
-cp ~/.config/nvim/init.vim ./.config/nvim/
+cp -rf ~/.config/nvim/init.vim ./.config/nvim/
 
 # newsbeuter
 mkdir .newsbeuter
-cp ~/.newsbeuter/config ./.newsbeuter/
-cp ~/.newsbeuter/urls ./.newsbeuter/
+cp -rf ~/.newsbeuter/config ./.newsbeuter/
+cp -rf ~/.newsbeuter/urls ./.newsbeuter/
 
 # polybar
 mkdir ./.config/polybar
-cp ~/.config/polybar/config ./.config/polybar/
-cp ~/.config/polybar/cmus.sh ./.config/polybar/
+cp -rf ~/.config/polybar/config ./.config/polybar/
+cp -rf ~/.config/polybar/cmus.sh ./.config/polybar/
 
 # ranger
 mkdir ./.config/ranger
-cp ~/.config/ranger/rc.conf ./.config/ranger/
-cp ~/.config/ranger/rifle.conf ./.config/ranger/
+cp -rf ~/.config/ranger/rc.conf ./.config/ranger/
+cp -rf ~/.config/ranger/rifle.conf ./.config/ranger/
 mkdir ./.config/ranger/colorschemes
-cp ~/.config/ranger/colorschemes/gruvbox.py ./.config/ranger/colorschemes/
+cp -rf ~/.config/ranger/colorschemes/gruvbox.py ./.config/ranger/colorschemes/
 
 # sxhkd
 mkdir ./.config/sxhkd
-cp ~/.config/sxhkd/sxhkdrc ./.config/sxhkd/
+cp -rf ~/.config/sxhkd/sxhkdrc ./.config/sxhkd/
 
 # tmux
-cp ~/.tmux.conf ./
+cp -rf ~/.tmux.conf ./
 
 # wallpaper
 mkdir .wallpaper
-cp ~/.wallpaper/lightgrass.jpg ./.wallpaper/
+cp -rf ~/.wallpaper/lightgrass.jpg ./.wallpaper/
 
 # xinit
-cp ~/.xinitrc ./
+cp -rf ~/.xinitrc ./
 
 # X resources
-cp ~/.Xresources ./
+cp -rf ~/.Xresources ./
 
 # zathura
 mkdir ./.config/zathura
-cp ~/.config/zathura/zathurarc ./.config/zathura/
+cp -rf ~/.config/zathura/zathurarc ./.config/zathura/
 
 # zsh
-cp ~/.zprofile ./
-cp ~/.zshenv ./
-cp ~/.zshrc ./
+cp -rf ~/.zprofile ./
+cp -rf ~/.zshenv ./
+cp -rf ~/.zshrc ./

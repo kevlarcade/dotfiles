@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/env sh
 clear
 ## INFO
 # user is already defined
@@ -14,7 +14,7 @@ WM="$(grep -v "^#" "${HOME}/.xinitrc" | tail -n 1 | cut -d " " -f2)"
 ## DEFINE COLORS
 
 # probably don't change these
-bc="$(tput bold)"	# bold
+bc="$(tput bold)"	    # bold
 c0="$(tput setaf 0)"	# black
 c1="$(tput setaf 1)"	# red
 c2="$(tput setaf 2)"	# green

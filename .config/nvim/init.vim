@@ -1,17 +1,31 @@
+"                          _                              __ _
+"    _ __   ___  _____   _(_)_ __ ___     ___ ___  _ __  / _(_) __ _
+"   | '_ \ / _ \/ _ \ \ / / | '_ ` _ \   / __/ _ \| '_ \| |_| |/ _` |
+"   | | | |  __/ (_) \ V /| | | | | | | | (_| (_) | | | |  _| | (_| |
+"   |_| |_|\___|\___/ \_/ |_|_| |_| |_|  \___\___/|_| |_|_| |_|\__, |
+"         use z [o,c] to open and close folded text            |___/
+
 " {{{ PLUGINS
 call plug#begin('~/.config/nvim/plugged')
     Plug 'morhetz/gruvbox'                      " theme
     Plug 'vim-airline/vim-airline'              " status line
-    Plug 'jeffkreeftmeijer/vim-numbertoggle'    " smart relative numbering
     Plug 'airblade/vim-gitgutter'               " show git diffs
-    Plug 'jiangmiao/auto-pairs'                 " spawn matched brackets / quotes
     Plug 'scrooloose/nerdtree'                  " file browser
-    Plug 'jistr/vim-nerdtree-tabs'              " file browser tabs
     Plug 'w0rp/ale'                             " linting
+    Plug 'davidhalter/jedi-vim'                 " python autocompletion
+    Plug 'Yggdroot/indentLine'                  " indentation guides
+    Plug 'majutsushi/tagbar'                    " code browser
 call plug#end()
 " }}}
 
 " {{{ PLUGIN SETTINGS
+" indentLine
+let g:indentLine_setColors = 0
+let g:indentLine_char = '▏'
+
+" jedi
+autocmd FileType python setlocal completeopt-=preview
+let g:jedi#use_splits_not_buffers = "left"
 
 " airline
 let g:airline#extensions#ale#enabled = 1
@@ -46,47 +60,8 @@ let g:airline_symbols.readonly = ''
 let g:airline_symbols.linenr = ''
 
 " NERDTree
-nmap <silent><Leader>t :NERDTreeTabsToggle<CR> " open NERDTree with \t
-let g:nerdtree_tabs_open_on_console_startup=0 " don't open NERDTree on startup
+nmap <silent><Leader>t :NERDTreeToggle<CR> " open NERDTree with \t
 
-" python-mode
-let g:pymode_rope = 1
-" Documentation
-let g:pymode_doc = 1
-let g:pymode_doc_key = 'K'
-" Linting
-let g:pymode_lint = 1
-let g:pymode_lint_checker = "pyflakes,pep8"
-" Auto check on save
-let g:pymode_lint_write = 1
-" Support virtualenv
-let g:pymode_virtualenv = 1
-" Enable breakpoints plugin
-let g:pymode_breakpoint = 1
-let g:pymode_breakpoint_bind = '<leader>b'
-" Syntax highlighting
-let g:pymode_syntax = 1
-let g:pymode_syntax_all = 1
-let g:pymode_syntax_indent_errors = g:pymode_syntax_all
-let g:pymode_syntax_space_errors = g:pymode_syntax_all
-" Don't autofold code
-let g:pymode_folding = 0
-" refactoring
-let g:pymode_rope_rename_bind = '<C-c>rr'
-" completion
-let g:pymode_rope_completion = 1
-let g:pymode_rope_completion_on_dot = 1
-let g:pymode_rope_completion_bind = '<C-Space>'
-
-"syntastic
-set statusline+=%#warningmsg#
-set statusline+=%{SyntasticStatuslineFlag()}
-set statusline+=%*
-let g:syntastic_always_populate_loc_list = 1
-let g:syntastic_auto_loc_list = 1
-let g:syntastic_check_on_open = 1
-let g:syntastic_check_on_wq = 0
-let g:syntastic_sh_checkers = ["shellcheck"]
 " }}}
 
 " {{{ BEHAVIOR
@@ -141,7 +116,7 @@ set nostartofline           " sticky columns when moving cursor
 " line numbers
 set number                  " show line numbers
 set numberwidth=3           " pad number column
-set colorcolumn=81,120      " highlight 81st column
+set colorcolumn=81          " highlight 81st column
 " uncomment to highlight all columns beyond the 80th
 " execute "set colorcolumn=" . join(range(81,335), ',')
 
@@ -188,6 +163,23 @@ set foldcolumn=0
 let mapleader = ' '         " use spacebar as map leader
 let g:mapleader = ' '       " same-same but different
 
+" indentLine
+nnoremap <Leader>i  :IndentLinesToggle<CR>
+
+" tagbar
+nnoremap <Leader>t  :TagbarToggle<CR>
+
+" buffer management
+nnoremap tg  :buffer<Space> " go to buffer x
+nnoremap th  :bfirst<CR>    " go to first buffer
+nnoremap tj  :bnext<CR>     " go to next buffer
+nnoremap tk  :bprev<CR>     " go to previous buffer
+nnoremap tl  :blast<CR>     " go to last buffer
+nnoremap tt  :edit<Space>   " open file in current buffer
+nnoremap tn  :enew<CR>      " open file in new buffer
+nnoremap td  :bdelete<CR>   " close current buffer
+nnoremap ts  :files<CR>     " list buffers
+
 " space clears search highlights and any message displayed
 nnoremap <silent> <Space> :silent noh<Bar>echo<CR>
 
@@ -204,15 +196,15 @@ inoremap <S-Tab> <C-D>
 vnoremap <Tab> >gv          " tab to increase indent
 vnoremap <S-Tab> <gv        " shift tab to decrease indent
 
-" save file as root with space + w
-noremap <Leader>W :w !sudo tee % > /dev/null
+" save file as root
+noremap <Leader>W :w !sudo tee % > /dev/null<CR>
 
-" up and down arrow keys to move between buffers
-nnoremap <silent> <Down>   :bn<CR>
-nnoremap <silent> <Up>  :bp<CR>
+" left and right arrow keys to move between buffers
+nnoremap <silent> <Right>   :bn<CR>
+nnoremap <silent> <Left>  :bp<CR>
 
-" copy visual
-map <C-c> "+y<CR>
+map <C-c> "+y<CR>           " ctrl c to copy selected text
+map <C-v> "+p<CR>           " ctrl v to paste text
 
 " toggle paste mode
 set pastetoggle=<F2>

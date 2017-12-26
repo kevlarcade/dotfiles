@@ -27,7 +27,7 @@ Xft.rgba:       rgb
 
 ! clickable links, clipboard support, mouse wheel support, and on the fly font resizing
 URxvt.perl-ext-common: default,matcher,clipboard,vtwheel,resize-font
-URxvt.url-launcher: /usr/bin/chromium
+URxvt.url-launcher: /usr/bin/firefox
 URxvt.matcher.button: 1
 URxvt.matcher.rend.0: Bold fg6
 
@@ -99,15 +99,3 @@ URxvt.matcher.rend.0: Bold fg6
 *.color246: #a89984
 *.color248: #bdae93
 *.color250: #d5c4a1
-
-! rofi theme
-rofi.color-enabled: true
-!                  bg       border   separator
-rofi.color-window: argb:d0282828, #a89984, #a89984
-!                  bg             fg       bg-alt   hl-bg    hl-fg
-rofi.color-normal: argb:d0282828, #ebdbb2, argb:d032302f, #665c54, #fbf1c7
-rofi.color-active: argb:d0d79921, #282828, argb:d0d79921, #fabd2f, #282828
-rofi.color-urgent: argb:d0cc241d, #282828, argb:d0cc241d, #fb4934, #282828
-
-rofi.separator-style: solid
-rofi.hide-scrollbar: true

@@ -63,26 +63,29 @@ alias testpowerline='echo "\ue0b0 \u00b1 \ue0a0 \u27a6 \u2718 \u26a1 \u2699"'
 cheatsheet() { curl cheat.sh/$1; }                      # get command cheatsheet
 qrcode() { echo $@ | curl -F-=\<- qrenco.de; }          # print qrcode
 alias porn=' mpv "http://www.pornhub.com/random"'       # ayy lmao
+# pron(){ curl -s "$(curl -s "http://www.imagefap.com/random.php?f=5" | grep -o 'http://www.imagefap.com/photo/[0-9]\+/' | shuf -n 1 )" | grep 'mainPhoto' | grep -Po '(?<=src=")[^"]*' | xargs feh; }
 alias weather='curl -s wttr.in/~白井市 | head -7'       # print weather
 alias weatherforecast='curl -s wttr.in/~白井市 | head -37 | tail -30'
 #   }}}
 
 alias ap='sudo create_ap --config ~/.config/create_ap.conf' # spawn wifi spot
-alias bm='bmon -p wlp0s29u1u2,wlp2s0,ap0 -o "curses:fgchar=S;bgchar=.;nchar=N;uchar=?;details"'
+alias bm='bmon -p wlp0s29u1u2,wlp0s29u1u1,wlp2s0,ap0 -o "curses:fgchar=S;bgchar=.;nchar=N;uchar=?;details"'
 alias kal='khal interactive'                            # show calendar
-alias chromium='chromium --disk-cache-dir=/tmp/cache'   # keep cache in RAM
 alias ip='ip -c'                                        # colored ip
 
 alias gc='git commit -am'                               # git commit with message
 alias gl='git log --graph --oneline --decorate --all'   # graph git log
 alias gs='git status -sb'                               # simplify git status
 
-alias less='less -i'                                    # case insensitive search
+alias grep='grep --color=auto'                          # colored grep
 
+alias less='less -i'                                    # case insensitive search
+alias mutt='neomutt'                                    # neomutt
+alias pactree='pactree --color'
 alias qutebrowser='qutebrowser --backend webengine'     # webengine in qutebrowser
 
 alias 死んでください='systemctl poweroff'   # great for shitposting
-
+alias tree='tree -C'
 alias vi='nvim'; alias vim='nvim'       # use nvim where vi or vim is called
 alias vimdiff='nvim -d'                 # use nvim when diffing
 # }}}

@@ -9,10 +9,9 @@ cp -rf -r ~/bin ./
 mkdir ./.config/bspwm
 cp -rf ~/.config/bspwm/bspwmrc ./.config/bspwm/
 
-# cmus
-mkdir ./.config/cmus
-cp -rf ~/.config/cmus/rc ./.config/cmus/
-cp -rf ~/.config/cmus/gruvbox.theme ./.config/cmus/
+# mpd
+mkdir ./.config/mpd
+cp -rf ~/.config/mpd/mpd.conf ./.config/mpd/
 
 # compton
 cp -rf ~/.config/compton.conf ./.config/
@@ -35,6 +34,14 @@ cp -rf ~/.config/gtk-3.0/settings.ini ./.config/gtk-3.0/
 mkdir ./.config/htop
 cp -rf ~/.config/htop/htoprc ./.config/htop/
 
+# khal
+mkdir ./.config/khal
+cp -rf ~/.config/khal/config ./.config/khal/
+
+# khard
+mkdir ./.config/khard
+cp -rf ~/.config/khard/khard.conf ./.config/khard/
+
 # mpv
 mkdir ./.config/mpv
 cp -rf ~/.config/mpv/input.conf ./.config/mpv/
@@ -45,23 +52,22 @@ mkdir .mutt
 cp -rf ~/.mutt/muttrc ./.mutt/
 cp -rf ~/.mutt/mailcap ./.mutt/
 
-# neofetch
-mkdir ./.config/neofetch
-cp -rf ~/.config/neofetch/config ./.config/neofetch/
+# ncmpcpp
+mkdir ./.ncmpcpp
+cp -rf ~/.ncmpcpp/config ./.ncmpcpp/
 
 # neovim
 mkdir ./.config/nvim
 cp -rf ~/.config/nvim/init.vim ./.config/nvim/
 
-# newsbeuter
-mkdir .newsbeuter
-cp -rf ~/.newsbeuter/config ./.newsbeuter/
-cp -rf ~/.newsbeuter/urls ./.newsbeuter/
+# newsboat
+mkdir ./.config/newsboat
+cp -rf ~/.config/newsboat/config ./.config/newsboat/
+cp -rf ~/.config/newsboat/urls ./.config/newsboat/
 
 # polybar
 mkdir ./.config/polybar
 cp -rf ~/.config/polybar/config ./.config/polybar/
-cp -rf ~/.config/polybar/cmus.sh ./.config/polybar/
 
 # ranger
 mkdir ./.config/ranger
@@ -69,6 +75,11 @@ cp -rf ~/.config/ranger/rc.conf ./.config/ranger/
 cp -rf ~/.config/ranger/rifle.conf ./.config/ranger/
 mkdir ./.config/ranger/colorschemes
 cp -rf ~/.config/ranger/colorschemes/gruvbox.py ./.config/ranger/colorschemes/
+
+# rofi
+mkdir ./.config/rofi
+cp -rf ~/.config/rofi/config.rasi ./.config/rofi/
+cp -rf ~/.config/rofi/gruvbox.rasi ./.config/rofi/
 
 # sxhkd
 mkdir ./.config/sxhkd
@@ -83,6 +94,9 @@ cp -rf ~/.wallpaper/lightgrass.jpg ./.wallpaper/
 
 # xinit
 cp -rf ~/.xinitrc ./
+
+# xmodmap
+cp ~/.config/xmodmap ./.config/
 
 # X resources
 cp -rf ~/.Xresources ./

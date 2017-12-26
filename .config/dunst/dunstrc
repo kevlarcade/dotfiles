@@ -159,7 +159,7 @@
     max_icon_size = 128
 
     # Paths to default icons.
-    icon_folders = /usr/share/icons/gnome/16x16/status/:/usr/share/icons/gnome/16x16/devices/
+    icon_folders = /usr/share/icons/Paper/512x512/status/:/usr/share/icons/Paper/512x512/devices/:/usr/share/icons/Paper/512x512/apps:/usr/share/icons/Paper/512x512/categories:/usr/share/icons/Paper/512x512/emblems
 
     ### History ###
 

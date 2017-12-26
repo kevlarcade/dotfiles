@@ -10,3 +10,15 @@ export BROWSER=chromium
 if [ -d "$HOME/bin" ] ; then
   PATH="$HOME/bin:$PATH"
 fi
+
+if [ -d "$HOME/.gem/ruby/2.4.0/bin" ] ; then
+  PATH="$HOME/.gem/ruby/2.4.0/bin:$PATH"
+fi
+
+if [ -d "$HOME/.local/bin" ] ; then
+  PATH="$HOME/.local/bin:$PATH"
+fi
+
+if [ -d "$HOME/go/bin" ] ; then
+  PATH="$HOME/go/bin:$PATH"
+fi

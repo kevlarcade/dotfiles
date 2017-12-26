@@ -12,13 +12,23 @@ call plug#begin('~/.config/nvim/plugged')
     Plug 'airblade/vim-gitgutter'               " show git diffs
     Plug 'scrooloose/nerdtree'                  " file browser
     Plug 'w0rp/ale'                             " linting
-    Plug 'davidhalter/jedi-vim'                 " python autocompletion
     Plug 'Yggdroot/indentLine'                  " indentation guides
     Plug 'majutsushi/tagbar'                    " code browser
+    Plug 'fatih/vim-go'                         " golang plugin
+
+    " completion plugins
+    Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+    Plug 'zchee/deoplete-go', { 'do': 'make' }      " golang
+    Plug 'zchee/deoplete-jedi'                      " python
+    Plug 'zchee/deoplete-zsh'                       " zsh
 call plug#end()
 " }}}
 
 " {{{ PLUGIN SETTINGS
+" deoplete
+let g:deoplete#enable_at_startup = 1
+set completeopt-=preview
+
 " indentLine
 let g:indentLine_setColors = 0
 let g:indentLine_char = '▏'
@@ -65,11 +75,13 @@ nmap <silent><Leader>t :NERDTreeToggle<CR> " open NERDTree with \t
 " }}}
 
 " {{{ BEHAVIOR
+set fileencodings=utf-8,cp932,euc-jp,iso-2022-jp,latin1
 set nocompatible    " avoid legacy compatibility nonsense
 set path=$PWD/**    " use path vim is opened in as base directory
 
 " menu completion options
 set wildmenu        " enhanced command line completion
+set wildignorecase  " ignore case on ex-mode completion
 set wildmode=list:longest,full " complete longest match, list others
 set wildignore=.svn,CVS,.git,*.o,*.a,*.class,*.mo,*.la,*.so,*.obj,*.swp,*.jpg,*.jpeg,*.png,*.xpm,*.gif
 
@@ -80,7 +92,23 @@ set magic           " set magic on, for regular expressions
 set ignorecase      " searches are not case-sensitive
 set smartcase       " case sensitive search if search contains capitals
 
-set backspace=indent,eol,start " allow backspacing over more stuff
+nnoremap <silent> n n:call BlinkNextMatch()<CR>
+nnoremap <silent> N N:call BlinkNextMatch()<CR>
+
+function! BlinkNextMatch() abort
+  highlight JustMatched ctermfg=white ctermbg=magenta cterm=bold
+
+  let pat = '\c\%#' . @/
+  let id = matchadd('JustMatched', pat)
+  redraw
+
+  exec 'sleep 150m'
+  call matchdelete(id)
+  redraw
+endfunction
+
+set autoread        " automatically refresh pane when file is changed externally
+set backspace=indent,eol,start " allow backspacing over auto indent and SoI
 set display+=lastline   " always display the last line of the screen
 set whichwrap+=<,>,h,l  " allow cursor to wrap lines
 set wrap            " soft wrap all files
@@ -91,6 +119,7 @@ set visualbell      " use colour blink instead of sound
 set encoding=utf8   " use utf8 as internal encoding
 set hidden          " allow opening new buffers without saving changes
 set mouse=a         " allow mouse control in all modes
+set lazyredraw      " don't redraw the screen while executing macros
 
 " undo and backup
 set noswapfile      " plenty of RAM, do not need swap

@@ -12,7 +12,11 @@ super + d
 
 # program launcher
 super + space
-    rofi -show drun -padding 10 -seperator-style "none" -font "Source Code Pro Medium 20"
+    rofi -show combi
+
+# password manager
+super + P
+    rofipass
 
 # file manager
 super + e
@@ -39,7 +43,7 @@ XF86AudioMute
 
 # screen brightness
 XF86MonBrightness{Down,Up}
-    xbacklight -{dec,inc} 5 -steps 1
+    xbacklight -{dec,inc} 1 -steps 1
 
 # keyboard brightness
 XF86KbdBrightness{Down,Up}
@@ -49,11 +53,12 @@ XF86KbdBrightness{Down,Up}
 XF86Launch6
     urxvtc -e htop
 
-# cmus
+# mpd
 super + bracket{left,right}
-    cmus-remote --{prev,next}
+    mpc {prev,next}
+
 super + backslash
-    cmus-remote -u
+    mpc toggle
 
 #
 # bspwm hotkeys

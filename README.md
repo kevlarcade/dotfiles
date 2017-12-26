@@ -53,6 +53,7 @@ Not all of this is required for the configuration, it's just the list of softwar
   + **gruvbox** _colour scheme_  low contrast colour scheme that's easy on the eyes
 
 ### utilities
++ **pass** password manager  based on PGP, syncs via git
 + **zsh** _shell_ very powerful shell that remains compatible with bash
 + **tmux** _terminal multiplexer_  will save your life when X11 quits working
 + **rofi** _dynamic menu_ application launcher

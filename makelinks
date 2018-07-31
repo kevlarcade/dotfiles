@@ -82,7 +82,7 @@ ln -fsT "${CONFIG}/wallpaper" "${HOME}/.config/wallpaper"
 
 # x11
 ln -fsT "${CONFIG}/x11/xinitrc" "${HOME}/.xinitrc"
-ln -fsT "${CONFIG}/x11/xmodmap" "${HOME}/.xmodmap"
+ln -fsT "${CONFIG}/x11/xmodmap" "${HOME}/.Xmodmap"
 ln -fsT "${CONFIG}/x11/Xresources" "${HOME}/.Xresources"
 
 # zathura

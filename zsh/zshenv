@@ -1,7 +1,13 @@
 # {{{ GENERAL
 export BROWSER=w3m
+export DEFAULT_USER=oda
 export EDITOR=nvim
 export LANG=en_US.UTF-8
+# }}}
+
+# {{{ DOCKER
+export DOCKER_HOST="tcp://dockmaster.tiuxo.com:2376"
+export DOCKER_TLS_VERIFY=1
 # }}}
 
 # {{{ LESS
